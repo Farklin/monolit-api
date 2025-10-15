@@ -1,0 +1,928 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Monolit API",
+        "description": "Monolit API",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/api/contexts": {
+            "get": {
+                "tags": [
+                    "Contexts"
+                ],
+                "summary": "Fetch data",
+                "operationId": "885538d9e4c326f8e9a0aa770298ff68",
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "string",
+                                            "example": "Sample data"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Contexts"
+                ],
+                "summary": "Create context",
+                "operationId": "95d60b0a8dd13b6002568462207b4bab",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "project_id": {
+                                        "type": "integer"
+                                    },
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "key": {
+                                        "type": "string"
+                                    },
+                                    "description": {
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object",
+                                "example": {
+                                    "project_id": 1,
+                                    "name": "Context name",
+                                    "key": "context-key",
+                                    "description": "Context description"
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "string",
+                                            "example": "Sample data"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/contexts/{id}": {
+            "get": {
+                "tags": [
+                    "Contexts"
+                ],
+                "summary": "Fetch data by id",
+                "operationId": "a1fa6c06594935e0db8d3d629fd9b550",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "string",
+                                            "example": "Sample data"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Context not found"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Contexts"
+                ],
+                "summary": "Update context",
+                "operationId": "a81f49caa021944e02578aa16df6cc77",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "project_id": {
+                                        "type": "integer"
+                                    },
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "key": {
+                                        "type": "string"
+                                    },
+                                    "description": {
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object",
+                                "example": {
+                                    "project_id": 1,
+                                    "name": "Updated name",
+                                    "key": "updated-key",
+                                    "description": "Updated description"
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "string",
+                                            "example": "Sample data"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Context not found"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Contexts"
+                ],
+                "summary": "Delete context",
+                "operationId": "a3d6f13adecf58c9fcee8b85793d6bbc",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "string",
+                                            "example": "Sample data"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Context not found"
+                    }
+                }
+            }
+        },
+        "/api/projects": {
+            "get": {
+                "tags": [
+                    "Projects"
+                ],
+                "summary": "Fetch data",
+                "operationId": "8d4a13ef3fc773ff4031e515460919ea",
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "string",
+                                            "example": "Sample data"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Projects"
+                ],
+                "summary": "Create data",
+                "operationId": "a4dd4c17bf5fc24c224357f03dcc848a",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "description": {
+                                        "oneOf": [
+                                            {
+                                                "type": "string"
+                                            },
+                                            {
+                                                "type": "integer"
+                                            }
+                                        ]
+                                    },
+                                    "status": {
+                                        "type": "boolean"
+                                    },
+                                    "priority": {
+                                        "type": "integer"
+                                    }
+                                },
+                                "type": "object",
+                                "example": {
+                                    "name": "ТСК СПБ",
+                                    "key": "tsk-spb",
+                                    "description": "ТСК СПБ",
+                                    "status": true,
+                                    "priority": 1
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "string",
+                                            "example": "Sample data"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/projects/{id}": {
+            "get": {
+                "tags": [
+                    "Projects"
+                ],
+                "summary": "Fetch data by id",
+                "operationId": "af32aed47c19d517816e0b970d60cd5a",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "string",
+                                            "example": "Sample data"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Project not found"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Projects"
+                ],
+                "summary": "Update data",
+                "operationId": "491d11cc6efd20335421a859159e2487",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "description": {
+                                        "oneOf": [
+                                            {
+                                                "type": "string"
+                                            },
+                                            {
+                                                "type": "integer"
+                                            }
+                                        ]
+                                    },
+                                    "status": {
+                                        "type": "boolean"
+                                    },
+                                    "priority": {
+                                        "type": "integer"
+                                    }
+                                },
+                                "type": "object",
+                                "example": {
+                                    "name": "ТСК СПБ",
+                                    "key": "tsk-spb1",
+                                    "description": "ТСК СПБ",
+                                    "status": true,
+                                    "priority": 1
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "string",
+                                            "example": "Sample data"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Project not found"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Projects"
+                ],
+                "summary": "Delete data",
+                "operationId": "187865e30ff6b72f1cea3037d9dd84fa",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "string",
+                                            "example": "Sample data"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/warehouses": {
+            "get": {
+                "tags": [
+                    "Warehouses"
+                ],
+                "summary": "Fetch data",
+                "operationId": "cab30faea02ec476b845ce791e30635b",
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "string",
+                                            "example": "Sample data"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Warehouses"
+                ],
+                "summary": "Create data",
+                "operationId": "35cb07849f875859a84a1c37f93e8294",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "description": {
+                                        "type": "string"
+                                    },
+                                    "content": {
+                                        "type": "string"
+                                    },
+                                    "context_id": {
+                                        "type": "integer"
+                                    },
+                                    "status": {
+                                        "type": "boolean"
+                                    },
+                                    "priority": {
+                                        "type": "integer"
+                                    }
+                                },
+                                "type": "object",
+                                "example": {
+                                    "name": "Warehouse name",
+                                    "description": "Warehouse description",
+                                    "content": "Warehouse content",
+                                    "context_id": 1,
+                                    "status": true,
+                                    "priority": 1
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "string",
+                                            "example": "Sample data"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/warehouses/{id}": {
+            "get": {
+                "tags": [
+                    "Warehouses"
+                ],
+                "summary": "Fetch data by id",
+                "operationId": "50b188670a3ef5c41fd1cf4a699c41f0",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "string",
+                                            "example": "Sample data"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Warehouses"
+                ],
+                "summary": "Update data",
+                "operationId": "bd31d9a687159f7167b2ecdeaa69e9be",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "description": {
+                                        "type": "string"
+                                    },
+                                    "content": {
+                                        "type": "string"
+                                    },
+                                    "context_id": {
+                                        "type": "integer"
+                                    },
+                                    "status": {
+                                        "type": "boolean"
+                                    },
+                                    "priority": {
+                                        "type": "integer"
+                                    }
+                                },
+                                "type": "object",
+                                "example": {
+                                    "name": "Warehouse name",
+                                    "description": "Warehouse description",
+                                    "content": "Warehouse content",
+                                    "context_id": 1,
+                                    "status": true,
+                                    "priority": 1
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "string",
+                                            "example": "Sample data"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Warehouses"
+                ],
+                "summary": "Delete data",
+                "operationId": "b10a715b5257ca74f53c8407ac220de4",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "string",
+                                            "example": "Sample data"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/warehouses/context/{contextId}/category/{categoryId}": {
+            "get": {
+                "tags": [
+                    "Warehouses"
+                ],
+                "summary": "Get warehouse for category",
+                "operationId": "b10ac6ca6b9881f9e11a74ae0e8a5502",
+                "parameters": [
+                    {
+                        "name": "categoryId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "contextId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "string",
+                                            "example": "Sample data"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/warehouse-stocks": {
+            "post": {
+                "tags": [
+                    "Warehouse Stocks"
+                ],
+                "summary": "Create warehouse stock",
+                "operationId": "8adbb308bf84ccc998bc1cfb68406372",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "warehouse_id": {
+                                        "type": "integer"
+                                    },
+                                    "category_id": {
+                                        "type": "integer"
+                                    },
+                                    "max_quantity": {
+                                        "type": "integer"
+                                    },
+                                    "min_quantity": {
+                                        "type": "integer"
+                                    }
+                                },
+                                "type": "object",
+                                "example": {
+                                    "warehouse_id": 1,
+                                    "category_id": 1,
+                                    "max_quantity": 100,
+                                    "min_quantity": 0
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "string",
+                                            "example": "Sample data"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/warehouse-stocks/{id}": {
+            "put": {
+                "tags": [
+                    "Warehouse Stocks"
+                ],
+                "summary": "Update warehouse stock",
+                "operationId": "0235852d15d4bc483887dbeb9477dad2",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "warehouse_id": {
+                                        "type": "integer"
+                                    },
+                                    "category_id": {
+                                        "type": "integer"
+                                    },
+                                    "max_quantity": {
+                                        "type": "integer"
+                                    },
+                                    "min_quantity": {
+                                        "type": "integer"
+                                    }
+                                },
+                                "type": "object",
+                                "example": {
+                                    "warehouse_id": 1,
+                                    "category_id": 1,
+                                    "max_quantity": 100,
+                                    "min_quantity": 0
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "string",
+                                            "example": "Sample data"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Warehouse Stocks"
+                ],
+                "summary": "Delete warehouse stock",
+                "operationId": "f1dcde93c6354daf635e4c194e752bcd",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "string",
+                                            "example": "Sample data"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Contexts",
+            "description": "Contexts API"
+        },
+        {
+            "name": "Projects",
+            "description": "Projects API"
+        },
+        {
+            "name": "Warehouses",
+            "description": "Warehouses API"
+        },
+        {
+            "name": "Warehouse Stocks",
+            "description": "Warehouse Stocks API"
+        }
+    ]
+}
