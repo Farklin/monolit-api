@@ -4,10 +4,14 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Warehouse;
+use App\Http\Requests\Warehouse\Stock\GetWarehouseStockRequest;
 use App\Http\Requests\Warehouse\CreateWarehouseRequest;
 use App\Http\Requests\Warehouse\UpdateWarehouseRequest;
-use App\Models\WarehouseStock;
+use App\Services\Warehouse\WarehouseService;
+use App\Dto\Warehouse\QueryWarehouseStrockDto;
 use Illuminate\Support\Facades\Cache;
+use App\Models\Context;
+
 /**
  * @OA\Tag(
  *     name="Warehouses",
@@ -31,9 +35,19 @@ class WarehouseController extends Controller
      *     )
      * )
      */
-    public function index()
+    public function index(Request $request)
     {
-        return Warehouse::all();
+        $query = Warehouse::query();
+
+        if($request->has("current_context_id")){
+            $query->where('context', $request->current_context_id);
+        }
+
+        if (!$request->has("current_context_id") || $request->has('current_project_id')) {
+            $contexts = Context::where('project_id', $request->current_project_id)->pluck('id');
+            $query->whereIn('context_id', $contexts);
+        }
+        return $query->get();
     }
 
     /**
@@ -163,48 +177,48 @@ class WarehouseController extends Controller
     }
 
     /**
-     * @OA\Get(
-     *     path="/api/warehouses/context/{contextId}/category/{categoryId}",
-     *     summary="Get warehouse for category",
+     * @OA\Post(
+     *     path="/api/warehouses/stocks",
+     *     summary="Получить остатки на складах для категории",
      *     tags={"Warehouses"},
-     *     @OA\Parameter(
-     *         name="categoryId",
-     *         in="path",
-     *         required=true,
-     *         @OA\Schema(type="string")
-     *     ),
-     *     @OA\Parameter(
-     *         name="contextId",
-     *         in="path",
-     *         required=true,
-     *         @OA\Schema(type="string")
+     *     @OA\RequestBody(
+     *         @OA\MediaType(
+     *             mediaType="application/json",
+     *             @OA\Schema(
+     *                 @OA\Property(property="context_id", type="integer"),
+     *                 @OA\Property(property="category_id", type="integer"),
+     *                 @OA\Property(property="strategy", type="string", description="Стратегия получения остатков", enum={"base"}),
+     *                 example={"context_id": 1, "category_id": 1, "strategy": "base"}
+     *             )
+     *         )
      *     ),
      *     @OA\Response(
      *         response=200,
      *         description="Success",
      *         @OA\JsonContent(
-     *             type="object",
-     *             @OA\Property(property="data", type="string", example="Sample data")
+     *             type="array",
+     *             @OA\Items(
+     *                 type="object",
+     *                 @OA\Property(property="warehouse_name", type="string"),
+     *                 @OA\Property(property="warehouse_id", type="integer"),
+     *                 @OA\Property(property="quantity", type="integer"),
+     *             )
      *         )
      *     )
      * )
      */
-    public function getWarehouseForCategory($contextId, $categoryId)
+    public function getWarehouseForCategory(GetWarehouseStockRequest $request)
     {
-        //генерация случайны остатков складов
-        $warehouseStock = WarehouseStock::where('category_id', $categoryId)->whereHas('warehouse', function ($query) use ($contextId) {
-            $query->where('context_id', $contextId);
-        })->get();
-
-        $warehouseStock = $warehouseStock->map(function ($item) {
-            $quantity = rand($item->min_quantity, $item->max_quantity);
-            return [
-                "warehouse_name" => $item->warehouse->name,
-                "warehouse_id" => $item->warehouse->id,
-                "quantity" => $quantity,
-            ];
+        $dto = QueryWarehouseStrockDto::fromRequest($request);
+        $warehouseService = new WarehouseService();
+        $cacheKey = 'warehouse_for_category_' . $dto->categoryId . '_' . $dto->contextId . '_' . $dto->strategy;
+        $warehouseStocks = Cache::remember($cacheKey, 60, function () use ($dto, $warehouseService) {
+            return $warehouseService->getWarehouseForCategory($dto);
         });
-        return $warehouseStock;
 
+        // Конвертируем массив DTO в массив для JSON ответа
+        $response = array_map(fn($item) => $item->toArray(), $warehouseStocks);
+
+        return response()->json($response);
     }
 }

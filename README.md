@@ -5,3 +5,5 @@ https://dev.to/msnmongare/how-to-generate-and-display-swagger-openapi-documentat
 composer require darkaonline/l5-swagger
 php artisan vendor:publish --provider="L5Swagger\L5SwaggerServiceProvider"
 
+
+php artisan l5-swagger:generate

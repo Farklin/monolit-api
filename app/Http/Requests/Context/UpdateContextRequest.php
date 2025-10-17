@@ -25,7 +25,9 @@ class UpdateContextRequest extends FormRequest
             'project_id' => 'required|integer',
             'name' => 'required|string|max:255',
             'key' => 'required|string|max:255',
-            'description' => 'required|string|max:255',
+            'status' => 'bool',
+            'priority' => "nullable|integer",
+            'description' => 'nullable|string|max:255',
         ];
     }
 }

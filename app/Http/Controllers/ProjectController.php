@@ -82,6 +82,10 @@ class ProjectController extends Controller
      *                     property="name",
      *                     type="string"
      *                 ),
+     *                  @OA\Property(
+     *                      property="key",
+     *                      type="string"
+     *                  ),
      *                 @OA\Property(
      *                     property="description",
      *                     oneOf={
@@ -198,5 +202,41 @@ class ProjectController extends Controller
     public function destroy($id)
     {
         return Project::findOrFail($id)->delete();
+    }
+
+
+    /**
+     * @OA\Get(
+     *     path="/api/projects/{id}/contexts",
+     *     summary="Get contexts by project id",
+     *     tags={"Projects"},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             type="array",
+     *             @OA\Items(
+     *                 type="object",
+     *                 @OA\Property(property="id", type="integer"),
+     *                 @OA\Property(property="name", type="string"),
+     *                 @OA\Property(property="key", type="string"),
+     *                 @OA\Property(property="description", type="string"),
+     *                 @OA\Property(property="status", type="boolean"),
+     *                 @OA\Property(property="priority", type="integer"),
+     *                 @OA\Property(property="project_id", type="integer")
+     *             )
+     *         )
+     *     )
+     * )
+     */
+    public function getContexts($id)
+    {
+        return Project::findOrFail($id)->contexts;
     }
 }

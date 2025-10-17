@@ -1,0 +1,22 @@
+@import '../Projects/ProjectModal.css';
+
+.modal-medium {
+  max-width: 550px;
+}
+
+/* Дополнительные стили для числовых полей */
+.form-group input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+.form-group input[type="number"]::-webkit-outer-spin-button,
+.form-group input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Стиль для подсказок */
+.form-hint strong {
+  color: #dc2626;
+}
+

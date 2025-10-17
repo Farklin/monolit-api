@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\Warehouse\Stock\CreateWarehouseStockRequest;
 use App\Models\WarehouseStock;
 use App\Http\Requests\Warehouse\Stock\UpdateWarehouseStockRequest;
+use App\Models\Context;
 /**
  * @OA\Tag(
  *     name="Warehouse Stocks",
@@ -14,6 +15,70 @@ use App\Http\Requests\Warehouse\Stock\UpdateWarehouseStockRequest;
  */
 class WarehouseStockController extends Controller
 {
+
+    /**
+     * @OA\Get(
+     *     path="/api/warehouse-stocks",
+     *     summary="Get warehouse stocks",
+     *     tags={"Warehouse Stocks"},
+     *     @OA\Response(
+     *         response=200,
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="data", type="string", example="Sample data")
+     *         )
+     *     )
+     * )
+     */
+    public function index(Request $request)
+    {
+        $query = WarehouseStock::query();
+
+        // Фильтр по контексту (через warehouse)
+        $contextId = $request->header('X-Context-Id') ?: $request->input('current_context_id');
+        if ($contextId) {
+            $query->whereHas('warehouse', function ($q) use ($contextId) {
+                $q->where('context_id', $contextId);
+            });
+        }
+        // Фильтр по проекту (через warehouse и context)
+        elseif ($projectId = $request->header('X-Project-Id') ?: $request->input('current_project_id')) {
+            $contextIds = Context::where('project_id', $projectId)->pluck('id');
+            $query->whereHas('warehouse', function ($q) use ($contextIds) {
+                $q->whereIn('context_id', $contextIds);
+            });
+        }
+
+        return $query->get();
+    }
+
+    /**
+     * @OA\Get(
+     *     path="/api/warehouse-stocks/{id}",
+     *     summary="Get warehouse stock by id",
+     *     tags={"Warehouse Stocks"},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="data", type="string", example="Sample data")
+     *         )
+     *     )
+     * )
+     */
+    public function show($id)
+    {
+        return WarehouseStock::findOrFail($id);
+    }
+
     /**
      * @OA\Post(
      *     path="/api/warehouse-stocks",

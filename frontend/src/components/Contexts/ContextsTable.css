@@ -1,0 +1,65 @@
+@import '../Projects/ProjectsTable.css';
+
+.contexts-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.contexts-table thead {
+  background-color: #f9fafb;
+  border-bottom: 2px solid #e5e5e5;
+}
+
+.contexts-table th {
+  padding: 14px 16px;
+  text-align: left;
+  font-size: 13px;
+  font-weight: 600;
+  color: #666;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.contexts-table tbody tr {
+  border-bottom: 1px solid #f3f4f6;
+  transition: background-color 0.2s;
+}
+
+.contexts-table tbody tr:hover {
+  background-color: #fafafa;
+}
+
+.contexts-table td {
+  padding: 16px;
+  font-size: 14px;
+  color: #333;
+  vertical-align: middle;
+}
+
+.context-name {
+  font-weight: 600;
+  color: #333;
+}
+
+.context-key {
+  font-family: 'Courier New', monospace;
+  background-color: #f3f4f6;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 13px;
+  display: inline-block;
+}
+
+.project-name {
+  color: #dc2626;
+  font-weight: 500;
+}
+
+.context-description {
+  max-width: 250px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: #666;
+}
+

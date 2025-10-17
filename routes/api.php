@@ -14,6 +14,7 @@ Route::get('/user', function (Request $request) {
 
 Route::get('/projects', [ProjectController::class, 'index']);
 Route::get('/projects/{id}', [ProjectController::class, 'show']);
+Route::get('/projects/{id}/contexts', [ProjectController::class, 'getContexts']);
 Route::post('/projects', [ProjectController::class, 'store']);
 Route::put('/projects/{id}', [ProjectController::class, 'update']);
 Route::delete('/projects/{id}', [ProjectController::class, 'destroy']);
@@ -30,8 +31,10 @@ Route::get('/warehouses/{id}', [WarehouseController::class, 'show']);
 Route::post('/warehouses', [WarehouseController::class, 'store']);
 Route::put('/warehouses/{id}', [WarehouseController::class, 'update']);
 Route::delete('/warehouses/{id}', [WarehouseController::class, 'destroy']);
-Route::get('/warehouses/context/{contextId}/category/{categoryId}', [WarehouseController::class, 'getWarehouseForCategory']);
+Route::post('/warehouses/stocks', [WarehouseController::class, 'getWarehouseForCategory']);
 
+Route::get('/warehouse-stocks', [WarehouseStockController::class, 'index']);
+Route::get('/warehouse-stocks/{id}', [WarehouseStockController::class, 'show']);
 Route::post('/warehouse-stocks', [WarehouseStockController::class, 'store']);
 Route::put('/warehouse-stocks/{id}', [WarehouseStockController::class, 'update']);
 Route::delete('/warehouse-stocks/{id}', [WarehouseStockController::class, 'destroy']);

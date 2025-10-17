@@ -272,6 +272,9 @@
                                     "name": {
                                         "type": "string"
                                     },
+                                    "key": {
+                                        "type": "string"
+                                    },
                                     "description": {
                                         "oneOf": [
                                             {
@@ -464,6 +467,63 @@
                                         }
                                     },
                                     "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/projects/{id}/contexts": {
+            "get": {
+                "tags": [
+                    "Projects"
+                ],
+                "summary": "Get contexts by project id",
+                "operationId": "f2e53853abdc9c4da74ca9b0f8d74832",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "id": {
+                                                "type": "integer"
+                                            },
+                                            "name": {
+                                                "type": "string"
+                                            },
+                                            "key": {
+                                                "type": "string"
+                                            },
+                                            "description": {
+                                                "type": "string"
+                                            },
+                                            "status": {
+                                                "type": "boolean"
+                                            },
+                                            "priority": {
+                                                "type": "integer"
+                                            },
+                                            "project_id": {
+                                                "type": "integer"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
                                 }
                             }
                         }
@@ -704,44 +764,63 @@
                 }
             }
         },
-        "/api/warehouses/context/{contextId}/category/{categoryId}": {
-            "get": {
+        "/api/warehouses/stocks": {
+            "post": {
                 "tags": [
                     "Warehouses"
                 ],
-                "summary": "Get warehouse for category",
-                "operationId": "b10ac6ca6b9881f9e11a74ae0e8a5502",
-                "parameters": [
-                    {
-                        "name": "categoryId",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "contextId",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
+                "summary": "Получить остатки на складах для категории",
+                "operationId": "c3eba5e7f3344f4035f85b81eb1ce810",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "context_id": {
+                                        "type": "integer"
+                                    },
+                                    "category_id": {
+                                        "type": "integer"
+                                    },
+                                    "strategy": {
+                                        "description": "Стратегия получения остатков",
+                                        "type": "string",
+                                        "enum": [
+                                            "base"
+                                        ]
+                                    }
+                                },
+                                "type": "object",
+                                "example": {
+                                    "context_id": 1,
+                                    "category_id": 1,
+                                    "strategy": "base"
+                                }
+                            }
                         }
                     }
-                ],
+                },
                 "responses": {
                     "200": {
                         "description": "Success",
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "properties": {
-                                        "data": {
-                                            "type": "string",
-                                            "example": "Sample data"
-                                        }
-                                    },
-                                    "type": "object"
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "warehouse_name": {
+                                                "type": "string"
+                                            },
+                                            "warehouse_id": {
+                                                "type": "integer"
+                                            },
+                                            "quantity": {
+                                                "type": "integer"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
                                 }
                             }
                         }
@@ -801,6 +880,9 @@
                                 }
                             }
                         }
+                    },
+                    "400": {
+                        "description": "Warehouse stock already exists"
                     }
                 }
             }
