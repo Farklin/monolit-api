@@ -65,6 +65,10 @@ class RolesAndPermissionsSeeder extends Seeder
             'create warehouse stocks',
             'edit warehouse stocks',
             'delete warehouse stocks',
+
+            // Обработка пользователей
+            'handle users roles',
+            'handle users permissions',
         ];
 
         foreach ($permissions as $permission) {

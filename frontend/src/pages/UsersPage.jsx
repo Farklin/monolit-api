@@ -24,17 +24,9 @@ const UsersPage = () => {
 
   const fetchUsers = async () => {
     setLoading(true)
-    try {
-      const data = await getUsers()
-      setUsers(data)
-    } catch (error) {
-      console.error('Error fetching users:', error)
-      toast.error('Ошибка при загрузке пользователей', {
-        position: 'top-right'
-      })
-    } finally {
-      setLoading(false)
-    }
+    const data = await getUsers()
+    setUsers(data)
+    setLoading(false)
   }
 
   const handleCreate = () => {

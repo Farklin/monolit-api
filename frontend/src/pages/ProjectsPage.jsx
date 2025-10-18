@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import ProjectsTable from '../components/Projects/ProjectsTable'
 import ProjectModal from '../components/Projects/ProjectModal'
 import { projectsAPI } from '../api/projects'
+
 import './ProjectsPage.css'
 
 const ProjectsPage = () => {
@@ -22,7 +23,7 @@ const ProjectsPage = () => {
       setProjects(data)
     } catch (error) {
       console.error('Ошибка загрузки проектов:', error)
-      alert('Не удалось загрузить проекты')
+
     } finally {
       setLoading(false)
     }

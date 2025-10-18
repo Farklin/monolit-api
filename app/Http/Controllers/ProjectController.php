@@ -34,6 +34,9 @@ class ProjectController extends Controller
      */
     public function index()
     {
+        if ($error = $this->checkPermission('view projects', 'У вас недостаточно прав для просмотра проектов')) {
+            return $error;
+        }
         return Project::all();
     }
 
@@ -65,6 +68,9 @@ class ProjectController extends Controller
      */
     public function show($id)
     {
+        if ($error = $this->checkPermission('view projects', 'У вас недостаточно прав для просмотра проектов')) {
+            return $error;
+        }
         return Project::findOrFail($id);
     }
 
@@ -117,6 +123,9 @@ class ProjectController extends Controller
      */
     public function store(CreateProjectRequest $request)
     {
+        if ($error = $this->checkPermission('create projects', 'У вас недостаточно прав для создания проектов')) {
+            return $error;
+        }
         return Project::create($request->validated());
     }
 
@@ -175,6 +184,9 @@ class ProjectController extends Controller
      */
     public function update(UpdateProjectRequest $request, $id)
     {
+        if ($error = $this->checkPermission('update projects', 'У вас недостаточно прав для обновления проектов')) {
+            return $error;
+        }
         return Project::findOrFail($id)->update($request->validated());
     }
 
@@ -201,6 +213,9 @@ class ProjectController extends Controller
      */
     public function destroy($id)
     {
+        if ($error = $this->checkPermission('delete projects', 'У вас недостаточно прав для удаления проектов')) {
+            return $error;
+        }
         return Project::findOrFail($id)->delete();
     }
 
@@ -237,6 +252,9 @@ class ProjectController extends Controller
      */
     public function getContexts($id)
     {
+        if ($error = $this->checkPermission('view projects', 'У вас недостаточно прав для просмотра проектов')) {
+            return $error;
+        }
         return Project::findOrFail($id)->contexts;
     }
 }

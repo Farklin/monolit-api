@@ -11,6 +11,7 @@ use App\Http\Requests\User\RemoveRoleFromUserRequest;
 use App\Http\Requests\User\AddPermissionToUserRequest;
 use App\Http\Requests\User\RemovePermissionFromUserRequest;
 use App\Events\Users\RegisterUser;
+use App\Events\Users\UserNotification;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 /**
@@ -65,6 +66,9 @@ class UserController extends Controller
      */
     public function index()
     {
+        if ($error = $this->checkPermission('view users', 'У вас недостаточно прав для просмотра пользователей')) {
+            return $error;
+        }
         return User::with(['roles', 'permissions'])->get();
     }
 
@@ -119,6 +123,9 @@ class UserController extends Controller
      */
     public function show($id)
     {
+        if ($error = $this->checkPermission('view users', 'У вас недостаточно прав для просмотра пользователей')) {
+            return $error;
+        }
         return User::with(['roles', 'permissions'])->findOrFail($id);
     }
 
@@ -160,6 +167,9 @@ class UserController extends Controller
      */
     public function store(CreateUserRequest $request)
     {
+        if ($error = $this->checkPermission('create users', 'У вас недостаточно прав для создания пользователей')) {
+            return $error;
+        }
         $user = User::create($request->validated());
         event(new RegisterUser($user));
         return $user;
@@ -209,6 +219,9 @@ class UserController extends Controller
      */
     public function update(UpdateUserRequest $request, $id)
     {
+        if ($error = $this->checkPermission('update users', 'У вас недостаточно прав для обновления пользователей')) {
+            return $error;
+        }
         return User::findOrFail($id)->update($request->validated());
     }
 
@@ -278,10 +291,14 @@ class UserController extends Controller
      */
     public function addRoleToUser(AddRoleToUserRequest $request)
     {
+        if ($error = $this->checkPermission('handle users roles', 'У вас недостаточно прав для назначения роли пользователю')) {
+            return $error;
+        }
         $data = $request->validated();
         $user = User::findOrFail($data['user_id']);
         $role = Role::findOrFail(id: $data['role_id']);
         $user->assignRole($role);
+        broadcast(new UserNotification($user, 'Вам добавлена новая роль: ' . $role->name, 'info'));
         return response()->json(data: ['message' => 'Роль успешно назначена пользователю', 'data' => $data]);
     }
 
@@ -317,6 +334,9 @@ class UserController extends Controller
      */
     public function removeRoleFromUser(RemoveRoleFromUserRequest $request)
     {
+        if ($error = $this->checkPermission('handle users roles', 'У вас недостаточно прав для удаления роли у пользователя')) {
+            return $error;
+        }
         $data = $request->validated();
         $user = User::findOrFail($data['user_id']);
         $role = Role::findOrFail($data['role_id']);
@@ -356,10 +376,15 @@ class UserController extends Controller
      */
     public function addPermissionToUser(AddPermissionToUserRequest $request)
     {
+        if ($error = $this->checkPermission('handle users permissions', 'У вас недостаточно прав для назначения разрешения пользователю')) {
+            return $error;
+        }
         $data = $request->validated();
         $user = User::findOrFail($data['user_id']);
         $permission = Permission::findOrFail($data['permission_id']);
         $user->givePermissionTo($permission);
+
+        broadcast(new UserNotification($user, 'Вам добавлено новое разрешение: ' . $permission->name, 'info'));
         return response()->json(['message' => 'Разрешение успешно назначено пользователю', 'data' => $data]);
     }
 
@@ -395,6 +420,9 @@ class UserController extends Controller
      */
     public function removePermissionFromUser(RemovePermissionFromUserRequest $request)
     {
+        if ($error = $this->checkPermission('handle users permissions', 'У вас недостаточно прав для удаления разрешения у пользователя')) {
+            return $error;
+        }
         $data = $request->validated();
         $user = User::findOrFail($data['user_id']);
         $permission = Permission::findOrFail($data['permission_id']);
