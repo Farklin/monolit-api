@@ -28,6 +28,7 @@ const Sidebar = ({ isOpen }) => {
         { id: 'warehouse-stocks', name: 'Остатки по складам', path: '/warehouse-stocks' }
       ]
     },
+    { id: 'users', name: 'Пользователи', icon: '👥', path: '/users' },
   ]
 
   const isActive = (path) => location.pathname === path

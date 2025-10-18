@@ -9,9 +9,15 @@ const axiosInstance = axios.create({
   }
 })
 
-// Interceptor для добавления project_id и context_id в заголовки
+// Interceptor для добавления токена, project_id и context_id в заголовки
 axiosInstance.interceptors.request.use(
   (config) => {
+    // Получаем токен авторизации из localStorage
+    const token = localStorage.getItem('token')
+    if (token) {
+      config.headers['Authorization'] = `Bearer ${token}`
+    }
+
     // Получаем project_id из localStorage
     const selectedProjectId = localStorage.getItem('selectedProjectId')
     if (selectedProjectId) {
@@ -31,15 +37,22 @@ axiosInstance.interceptors.request.use(
   }
 )
 
-// Interceptor для обработки ответов (опционально)
+// Interceptor для обработки ответов
 axiosInstance.interceptors.response.use(
   (response) => {
     return response
   },
   (error) => {
-    // Здесь можно обработать глобальные ошибки
+    // Обработка глобальных ошибок
     if (error.response?.status === 401) {
-      console.error('Unauthorized')
+      console.error('Unauthorized - redirecting to login')
+      // Удаляем токен и данные пользователя
+      localStorage.removeItem('token')
+      localStorage.removeItem('user')
+      // Перенаправляем на страницу логина
+      if (window.location.pathname !== '/login') {
+        window.location.href = '/login'
+      }
     }
     return Promise.reject(error)
   }
