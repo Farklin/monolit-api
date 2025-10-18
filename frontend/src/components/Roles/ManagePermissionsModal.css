@@ -1,0 +1,19 @@
+.manage-permissions-modal {
+  max-width: 700px;
+  max-height: 85vh;
+}
+
+.permissions-count {
+  margin-top: 8px;
+  font-size: 14px;
+  color: #666;
+  font-weight: 500;
+}
+
+.manage-permissions-modal .modal-body {
+  padding: 24px;
+  max-height: 60vh;
+  display: flex;
+  flex-direction: column;
+}
+

@@ -39,9 +39,8 @@ const LoginPage = () => {
       const response = await loginApi(formData.email, formData.password)
 
       if (response.status) {
-        // Успешный вход - сохраняем данные пользователя
-        // Примечание: имя пользователя не приходит в ответе, поэтому используем email
-        login({ email: formData.email, name: formData.email.split('@')[0] }, response.token)
+        // Успешный вход - сохраняем данные пользователя с ролями и разрешениями
+        login(response.user, response.token)
         toast.success('Вход выполнен успешно!', {
           position: 'top-right',
           autoClose: 3000

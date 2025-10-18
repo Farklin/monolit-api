@@ -1,7 +1,7 @@
 import React from 'react'
 import './UsersTable.css'
 
-const UsersTable = ({ users, loading, onEdit, onDelete }) => {
+const UsersTable = ({ users, loading, onEdit, onDelete, onManageRoles, onManagePermissions, onLogout }) => {
   if (loading) {
     return (
       <div className="loading-container">
@@ -37,6 +37,8 @@ const UsersTable = ({ users, loading, onEdit, onDelete }) => {
             <th>ID</th>
             <th>Имя</th>
             <th>Email</th>
+            <th>Роли</th>
+            <th>Разрешения</th>
             <th>Дата создания</th>
             <th>Действия</th>
           </tr>
@@ -54,9 +56,40 @@ const UsersTable = ({ users, loading, onEdit, onDelete }) => {
               <td>
                 <span className="user-email">{user.email}</span>
               </td>
+              <td>
+                <span className="badge roles-badge">
+                  {user.roles?.length || 0}
+                </span>
+              </td>
+              <td>
+                <span className="badge permissions-badge">
+                  {user.permissions?.length || 0}
+                </span>
+              </td>
               <td>{formatDate(user.created_at)}</td>
               <td>
                 <div className="action-buttons">
+                  <button
+                    className="btn-action roles"
+                    onClick={() => onManageRoles(user)}
+                    title="Управление ролями"
+                  >
+                    👥
+                  </button>
+                  <button
+                    className="btn-action permissions"
+                    onClick={() => onManagePermissions(user)}
+                    title="Управление разрешениями"
+                  >
+                    🔑
+                  </button>
+                  <button
+                    className="btn-action logout"
+                    onClick={() => onLogout(user.id)}
+                    title="Разлогинить пользователя"
+                  >
+                    🔓
+                  </button>
                   <button
                     className="btn-action edit"
                     onClick={() => onEdit(user)}

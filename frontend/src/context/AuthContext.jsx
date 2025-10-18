@@ -51,6 +51,37 @@ export const AuthProvider = ({ children }) => {
     return !!token && !!user
   }
 
+  // Проверка наличия разрешения у пользователя
+  const hasPermission = (permissionName) => {
+    if (!user) return false
+
+    // Если есть прямые разрешения у пользователя
+    if (user.permissions && user.permissions.some(p => p.name === permissionName)) {
+      return true
+    }
+
+    // Проверяем разрешения через роли
+    if (user.roles) {
+      return user.roles.some(role =>
+        role.permissions && role.permissions.some(p => p.name === permissionName)
+      )
+    }
+
+    return false
+  }
+
+  // Проверка наличия хотя бы одного из разрешений
+  const hasAnyPermission = (permissionNames) => {
+    if (!Array.isArray(permissionNames)) return false
+    return permissionNames.some(permission => hasPermission(permission))
+  }
+
+  // Проверка наличия роли у пользователя
+  const hasRole = (roleName) => {
+    if (!user || !user.roles) return false
+    return user.roles.some(role => role.name === roleName)
+  }
+
   return (
     <AuthContext.Provider
       value={{
@@ -59,7 +90,10 @@ export const AuthProvider = ({ children }) => {
         loading,
         login,
         logout,
-        isAuthenticated
+        isAuthenticated,
+        hasPermission,
+        hasAnyPermission,
+        hasRole
       }}
     >
       {children}

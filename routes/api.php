@@ -9,8 +9,8 @@ use App\Http\Controllers\WarehouseStockController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
-
-
+use App\Http\Controllers\RoleController;
+use App\Http\Controllers\PermissionController;
 
 Route::post('/auth/register', [AuthController::class, 'createUser']);
 Route::post('/auth/login', [AuthController::class, 'loginUser']);
@@ -22,6 +22,13 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::post('/users', [UserController::class, 'store']);
     Route::put('/users/{id}', [UserController::class, 'update']);
     Route::delete('/users/{id}', [UserController::class, 'destroy']);
+    Route::post('/users/{id}/logout', [UserController::class, 'logoutUser']);
+
+    Route::post("/users/roles/add", [UserController::class, 'addRoleToUser']);
+    Route::delete("/users/roles/remove", [UserController::class, 'removeRoleFromUser']);
+
+    Route::post("/users/permissions/add", [UserController::class, 'addPermissionToUser']);
+    Route::delete("/users/permissions/remove", [UserController::class, 'removePermissionFromUser']);
 
     Route::get('/projects', [ProjectController::class, 'index']);
     Route::get('/projects/{id}', [ProjectController::class, 'show']);
@@ -49,6 +56,21 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::post('/warehouse-stocks', [WarehouseStockController::class, 'store']);
     Route::put('/warehouse-stocks/{id}', [WarehouseStockController::class, 'update']);
     Route::delete('/warehouse-stocks/{id}', [WarehouseStockController::class, 'destroy']);
+
+    Route::get("/roles", [RoleController::class, 'index']);
+
+    Route::get("/roles/{id}", [RoleController::class, 'show']);
+    Route::post("/roles", [RoleController::class, 'store']);
+    Route::delete("/roles/{id}", [RoleController::class, 'destroy']);
+    Route::post("/roles/permissions/add", [RoleController::class, 'addPermissionToRole']);
+    Route::delete("/roles/permissions/remove", [RoleController::class, 'removePermissionFromRole']);
+
+
+    Route::get("/permissions", [PermissionController::class, 'index']);
+    Route::put("/permissions/{id}", [PermissionController::class, 'update']);
+    Route::delete("/permissions/{id}", [PermissionController::class, 'destroy']);
+    Route::get("/permissions/{id}", [PermissionController::class, 'show']);
+    Route::post("/permissions", [PermissionController::class, 'store']);
 
 
     // Системное уведомление (всем)

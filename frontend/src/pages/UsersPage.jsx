@@ -2,7 +2,9 @@ import React, { useState, useEffect } from 'react'
 import { toast } from 'react-toastify'
 import UsersTable from '../components/Users/UsersTable'
 import UserModal from '../components/Users/UserModal'
-import { getUsers, createUser, updateUser, deleteUser } from '../api/users'
+import ManageUserRolesModal from '../components/Users/ManageUserRolesModal'
+import ManageUserPermissionsModal from '../components/Users/ManageUserPermissionsModal'
+import { getUsers, createUser, updateUser, deleteUser, logoutUser } from '../api/users'
 import './UsersPage.css'
 
 const UsersPage = () => {
@@ -11,6 +13,10 @@ const UsersPage = () => {
   const [showModal, setShowModal] = useState(false)
   const [selectedUser, setSelectedUser] = useState(null)
   const [searchQuery, setSearchQuery] = useState('')
+  const [showRolesModal, setShowRolesModal] = useState(false)
+  const [showPermissionsModal, setShowPermissionsModal] = useState(false)
+  const [selectedUserForRoles, setSelectedUserForRoles] = useState(null)
+  const [selectedUserForPermissions, setSelectedUserForPermissions] = useState(null)
 
   useEffect(() => {
     fetchUsers()
@@ -90,6 +96,45 @@ const UsersPage = () => {
     setSelectedUser(null)
   }
 
+  const handleManageRoles = (user) => {
+    setSelectedUserForRoles(user)
+    setShowRolesModal(true)
+  }
+
+  const handleManagePermissions = (user) => {
+    setSelectedUserForPermissions(user)
+    setShowPermissionsModal(true)
+  }
+
+  const handleCloseRolesModal = () => {
+    setShowRolesModal(false)
+    setSelectedUserForRoles(null)
+  }
+
+  const handleClosePermissionsModal = () => {
+    setShowPermissionsModal(false)
+    setSelectedUserForPermissions(null)
+  }
+
+  const handleLogout = async (userId) => {
+    if (!window.confirm('Вы уверены, что хотите разлогинить этого пользователя? Все его активные сессии будут завершены.')) {
+      return
+    }
+
+    try {
+      const result = await logoutUser(userId)
+      toast.success(`Пользователь разлогинен! Удалено токенов: ${result.tokens_deleted}`, {
+        position: 'top-right',
+        autoClose: 3000
+      })
+    } catch (error) {
+      console.error('Error logging out user:', error)
+      toast.error('Ошибка при разлогинивании пользователя', {
+        position: 'top-right'
+      })
+    }
+  }
+
   const filteredUsers = users.filter(user => {
     const searchLower = searchQuery.toLowerCase()
     return (
@@ -134,6 +179,9 @@ const UsersPage = () => {
         loading={loading}
         onEdit={handleEdit}
         onDelete={handleDelete}
+        onManageRoles={handleManageRoles}
+        onManagePermissions={handleManagePermissions}
+        onLogout={handleLogout}
       />
 
       {showModal && (
@@ -143,6 +191,20 @@ const UsersPage = () => {
           onSave={handleSave}
         />
       )}
+
+      <ManageUserRolesModal
+        isOpen={showRolesModal}
+        onClose={handleCloseRolesModal}
+        user={selectedUserForRoles}
+        onUpdate={fetchUsers}
+      />
+
+      <ManageUserPermissionsModal
+        isOpen={showPermissionsModal}
+        onClose={handleClosePermissionsModal}
+        user={selectedUserForPermissions}
+        onUpdate={fetchUsers}
+      />
     </div>
   )
 }

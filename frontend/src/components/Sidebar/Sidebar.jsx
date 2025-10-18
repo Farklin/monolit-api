@@ -1,9 +1,12 @@
-import React, { useState } from 'react'
+import React, { useState, useMemo } from 'react'
+
 import { Link, useLocation } from 'react-router-dom'
+import { useAuth } from '../../context/AuthContext'
 import './Sidebar.css'
 
 const Sidebar = ({ isOpen }) => {
   const location = useLocation()
+  const { hasAnyPermission } = useAuth()
   const [openDropdowns, setOpenDropdowns] = useState(new Set(['warehouses']))
 
   const toggleDropdown = (id) => {
@@ -16,20 +19,102 @@ const Sidebar = ({ isOpen }) => {
     setOpenDropdowns(newSet)
   }
 
-  const menuItems = [
-    { id: 'projects', name: 'Проекты', icon: '🎯', path: '/projects' },
-    { id: 'contexts', name: 'Контексты', icon: '📋', path: '/contexts' },
+  const allMenuItems = [
+    {
+      id: 'projects',
+      name: 'Проекты',
+      icon: '🎯',
+      path: '/projects',
+      permissions: ['view projects']
+    },
+    {
+      id: 'contexts',
+      name: 'Контексты',
+      icon: '📋',
+      path: '/contexts',
+      permissions: ['view contexts']
+    },
     {
       id: 'warehouses',
       name: 'Склады',
       icon: '🏭',
+      permissions: ['view warehouses', 'view warehouse stocks'],
       submenu: [
-        { id: 'warehouses-list', name: 'Склады', path: '/warehouses' },
-        { id: 'warehouse-stocks', name: 'Остатки по складам', path: '/warehouse-stocks' }
+        {
+          id: 'warehouses-list',
+          name: 'Склады',
+          path: '/warehouses',
+          permissions: ['view warehouses']
+        },
+        {
+          id: 'warehouse-stocks',
+          name: 'Остатки по складам',
+          path: '/warehouse-stocks',
+          permissions: ['view warehouse stocks']
+        }
       ]
     },
-    { id: 'users', name: 'Пользователи', icon: '👥', path: '/users' },
+    {
+      id: 'users',
+      name: 'Пользователи',
+      icon: '👥',
+      path: '/users',
+      permissions: ['view users']
+    },
+    {
+      id: 'access',
+      name: 'Доступы',
+      icon: '🔐',
+      permissions: ['view roles', 'view permissions'],
+      submenu: [
+        {
+          id: 'roles',
+          name: 'Роли',
+          path: '/roles',
+          permissions: ['view roles']
+        },
+        {
+          id: 'permissions',
+          name: 'Разрешения',
+          path: '/permissions',
+          permissions: ['view permissions']
+        }
+      ]
+    },
   ]
+
+  // Фильтруем пункты меню на основе разрешений пользователя
+  const menuItems = useMemo(() => {
+    return allMenuItems.filter(item => {
+      // Если у пользователя есть хотя бы одно из требуемых разрешений
+      if (!item.permissions || hasAnyPermission(item.permissions)) {
+        // Если есть подменю, фильтруем его тоже
+        if (item.submenu) {
+          const filteredSubmenu = item.submenu.filter(subItem =>
+            !subItem.permissions || hasAnyPermission(subItem.permissions)
+          )
+          // Показываем пункт только если есть доступные подпункты
+          if (filteredSubmenu.length > 0) {
+            return { ...item, submenu: filteredSubmenu }
+          }
+          return false
+        }
+        return true
+      }
+      return false
+    }).map(item => {
+      // Фильтруем подменю для каждого пункта
+      if (item.submenu) {
+        return {
+          ...item,
+          submenu: item.submenu.filter(subItem =>
+            !subItem.permissions || hasAnyPermission(subItem.permissions)
+          )
+        }
+      }
+      return item
+    })
+  }, [hasAnyPermission])
 
   const isActive = (path) => location.pathname === path
   const isSubmenuActive = (submenu) => {

@@ -1,0 +1,18 @@
+.manage-user-permissions-modal {
+  max-width: 700px;
+  max-height: 85vh;
+}
+
+.manage-user-permissions-modal .modal-body {
+  padding: 24px;
+  max-height: 60vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.manage-user-permissions-modal .user-email {
+  margin-top: 4px;
+  font-size: 14px;
+  color: #666;
+}
+

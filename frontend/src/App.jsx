@@ -14,6 +14,8 @@ import ContextsPage from './pages/ContextsPage'
 import WarehousesPage from './pages/WarehousesPage'
 import WarehouseStocksPage from './pages/WarehouseStocksPage'
 import UsersPage from './pages/UsersPage'
+import RolesPage from './pages/RolesPage'
+import PermissionsPage from './pages/PermissionsPage'
 import NotificationListener from './components/Notifications/NotificationListener'
 import './App.css'
 
@@ -87,6 +89,26 @@ function App() {
                   <ProtectedRoute>
                     <Layout>
                       <UsersPage />
+                    </Layout>
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/roles"
+                element={
+                  <ProtectedRoute>
+                    <Layout>
+                      <RolesPage />
+                    </Layout>
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/permissions"
+                element={
+                  <ProtectedRoute>
+                    <Layout>
+                      <PermissionsPage />
                     </Layout>
                   </ProtectedRoute>
                 }
