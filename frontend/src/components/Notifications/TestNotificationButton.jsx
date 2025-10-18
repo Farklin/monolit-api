@@ -32,7 +32,7 @@ const TestNotificationButton = () => {
   const sendTestNotification = async (type) => {
     setLoading(true)
     setIsOpen(false)
-    
+
     const messages = {
       info: {
         title: 'Информация',
@@ -68,7 +68,7 @@ const TestNotificationButton = () => {
 
   return (
     <div ref={dropdownRef} style={{ position: 'relative' }}>
-      <button
+      {/* <button
         onClick={() => setIsOpen(!isOpen)}
         disabled={loading}
         style={{
@@ -87,7 +87,7 @@ const TestNotificationButton = () => {
         onMouseOut={(e) => !loading && (e.currentTarget.style.backgroundColor = '#4CAF50')}
       >
         {loading ? '⏳ Отправка...' : '🔔 Тест'}
-      </button>
+      </button> */}
 
       {isOpen && !loading && (
         <div style={{
