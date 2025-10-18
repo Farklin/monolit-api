@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { toast } from 'react-toastify'
 
 // Создаем экземпляр axios с базовой конфигурацией
 const axiosInstance = axios.create({
@@ -53,6 +54,19 @@ axiosInstance.interceptors.response.use(
       if (window.location.pathname !== '/login') {
         window.location.href = '/login'
       }
+    } else if (error.response?.status === 403) {
+      // Обработка 403 - Доступ запрещен (недостаточно прав)
+      const message = error.response?.data?.message || 'У вас недостаточно прав для выполнения этого действия'
+      toast.error(message, {
+        position: 'top-center',
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        icon: '🚫'
+      })
+      console.error('Forbidden:', message)
     }
     return Promise.reject(error)
   }
