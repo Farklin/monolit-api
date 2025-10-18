@@ -1,6 +1,6 @@
 <div align="center">
 
-# 🏢 CRM-система ВММебель
+# 🏢 CRM-система Monolit
 
 [![Laravel](https://img.shields.io/badge/Laravel-12-red.svg?style=flat-square&logo=laravel)](https://laravel.com)
 [![React](https://img.shields.io/badge/React-18-blue.svg?style=flat-square&logo=react)](https://reactjs.org)
