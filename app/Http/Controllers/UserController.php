@@ -431,10 +431,10 @@ class UserController extends Controller
     public function logoutUser($id)
     {
         $user = User::findOrFail($id);
-        
+
         // Удаляем все токены пользователя
         $tokensDeleted = $user->tokens()->delete();
-        
+
         return response()->json([
             'message' => 'Пользователь успешно разлогинен',
             'tokens_deleted' => $tokensDeleted
