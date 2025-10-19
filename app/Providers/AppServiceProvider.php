@@ -3,6 +3,10 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use App\Events\Users\UserNotification;
+use App\Listeners\SaveUserNotificationToDatabase;
+use Illuminate\Support\Facades\Event;
+use App\Events\MessageSent;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -19,6 +23,14 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        Event::listen(
+            UserNotification::class,
+            SaveUserNotificationToDatabase::class,
+        );
+
+        Event::listen(
+            MessageSent::class,
+            SaveUserNotificationToDatabase::class,
+        );
     }
 }

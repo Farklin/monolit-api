@@ -83,6 +83,16 @@
   color: #111827;
 }
 
+.action-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.action-btn:disabled:hover {
+  background-color: transparent;
+  color: #6b7280;
+}
+
 .notification-list {
   flex: 1;
   overflow-y: auto;
@@ -205,6 +215,62 @@
 
 .notification-empty-text {
   font-size: 14px;
+}
+
+.notification-loading {
+  padding: 40px 20px;
+  text-align: center;
+  color: #6b7280;
+}
+
+.notification-loading-spinner {
+  font-size: 32px;
+  margin-bottom: 12px;
+  animation: spin 1s linear infinite;
+}
+
+.notification-loading-text {
+  font-size: 14px;
+}
+
+.notification-error {
+  padding: 40px 20px;
+  text-align: center;
+  color: #ef4444;
+}
+
+.notification-error-icon {
+  font-size: 32px;
+  margin-bottom: 12px;
+}
+
+.notification-error-text {
+  font-size: 14px;
+  margin-bottom: 16px;
+}
+
+.notification-retry-btn {
+  background: #ef4444;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-size: 13px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.notification-retry-btn:hover {
+  background: #dc2626;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 /* Scrollbar styling */

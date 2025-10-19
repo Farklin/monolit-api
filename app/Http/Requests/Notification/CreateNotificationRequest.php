@@ -15,6 +15,7 @@ class CreateNotificationRequest extends FormRequest
         return true;
     }
 
+
     /**
      * Get the validation rules that apply to the request.
      *
@@ -25,7 +26,7 @@ class CreateNotificationRequest extends FormRequest
         return [
             'message' => 'required|string|max:255',
             'title' => 'required|string|max:255',
-            'type' => 'required|string|in:' . implode(',', NotificationTypeEnum::cases()),
+            'type' => 'required|string|in:' . implode(',', NotificationTypeEnum::getValues()),
         ];
     }
 }

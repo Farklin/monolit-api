@@ -26,7 +26,7 @@ class CreateNotificationToUserRequest extends FormRequest
             'user_id' => 'required|exists:users,id',
             'message' => 'required|string|max:255',
             'title' => 'required|string|max:255',
-            'type' => 'required|string|in:' . implode(',', NotificationTypeEnum::cases()),
+            'type' => 'required|string|in:' . implode(',', NotificationTypeEnum::getValues()),
         ];
     }
 

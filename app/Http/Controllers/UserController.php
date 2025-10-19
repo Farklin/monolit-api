@@ -299,7 +299,7 @@ class UserController extends Controller
         $user = User::findOrFail($data['user_id']);
         $role = Role::findOrFail(id: $data['role_id']);
         $user->assignRole($role);
-        broadcast(new UserNotification($user, 'Вам добавлена новая роль: ' . $role->name, 'info'));
+        event(new UserNotification($user, 'Вам добавлена новая роль: ' . $role->name, 'info'));
         return response()->json(data: ['message' => 'Роль успешно назначена пользователю', 'data' => $data]);
     }
 
@@ -385,7 +385,7 @@ class UserController extends Controller
         $permission = Permission::findOrFail($data['permission_id']);
         $user->givePermissionTo($permission);
 
-        broadcast(new UserNotification($user, 'Вам добавлено новое разрешение: ' . $permission->name, 'info'));
+        event(new UserNotification($user, 'Вам добавлено новое разрешение: ' . $permission->name, 'info'));
         return response()->json(['message' => 'Разрешение успешно назначено пользователю', 'data' => $data]);
     }
 

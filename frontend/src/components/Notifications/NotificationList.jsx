@@ -8,11 +8,22 @@ const NotificationList = () => {
   const {
     notifications,
     unreadCount,
+    loading,
+    error,
+    hasLoaded,
+    loadNotifications,
     markAsRead,
     markAllAsRead,
     clearNotification,
     clearAllNotifications
   } = useNotifications()
+
+  // Загрузка уведомлений при открытии (только если еще не загружали)
+  useEffect(() => {
+    if (isOpen && !hasLoaded && !loading) {
+      loadNotifications()
+    }
+  }, [isOpen, hasLoaded, loading, loadNotifications])
 
   // Закрытие при клике вне компонента
   useEffect(() => {
@@ -35,19 +46,20 @@ const NotificationList = () => {
     setIsOpen(!isOpen)
   }
 
-  const handleNotificationClick = (notification) => {
+  const handleNotificationClick = async (notification) => {
     if (!notification.read) {
-      markAsRead(notification.id)
+      await markAsRead(notification.id)
     }
   }
 
-  const handleDelete = (e, notificationId) => {
+  const handleDelete = async (e, notificationId) => {
     e.stopPropagation()
-    clearNotification(notificationId)
+    await clearNotification(notificationId)
   }
 
   const formatTime = (timestamp) => {
-    const date = new Date(timestamp)
+    // Обрабатываем как строку с сервера, так и объект Date
+    const date = timestamp instanceof Date ? timestamp : new Date(timestamp)
     const now = new Date()
     const diff = now - date
     const minutes = Math.floor(diff / 60000)
@@ -58,7 +70,7 @@ const NotificationList = () => {
     if (minutes < 60) return `${minutes} мин. назад`
     if (hours < 24) return `${hours} ч. назад`
     if (days < 7) return `${days} д. назад`
-    
+
     return date.toLocaleDateString('ru-RU', {
       day: '2-digit',
       month: '2-digit',
@@ -96,10 +108,18 @@ const NotificationList = () => {
           <div className="notification-header">
             <h3>Уведомления</h3>
             <div className="notification-actions">
+              <button
+                className="action-btn"
+                onClick={() => loadNotifications(true)}
+                title="Обновить уведомления"
+                disabled={loading}
+              >
+                {loading ? '⏳' : '🔄'}
+              </button>
               {unreadCount > 0 && (
                 <button
                   className="action-btn"
-                  onClick={markAllAsRead}
+                  onClick={async () => await markAllAsRead()}
                   title="Отметить все как прочитанные"
                 >
                   ✓ Все
@@ -108,7 +128,7 @@ const NotificationList = () => {
               {notifications.length > 0 && (
                 <button
                   className="action-btn"
-                  onClick={clearAllNotifications}
+                  onClick={async () => await clearAllNotifications()}
                   title="Очистить все"
                 >
                   Очистить
@@ -118,7 +138,27 @@ const NotificationList = () => {
           </div>
 
           <div className="notification-list">
-            {notifications.length === 0 ? (
+            {loading ? (
+              <div className="notification-loading">
+                <div className="notification-loading-spinner">⏳</div>
+                <div className="notification-loading-text">
+                  Загрузка уведомлений...
+                </div>
+              </div>
+            ) : error ? (
+              <div className="notification-error">
+                <div className="notification-error-icon">⚠️</div>
+                <div className="notification-error-text">
+                  {error}
+                </div>
+                <button
+                  className="notification-retry-btn"
+                  onClick={() => loadNotifications(true)}
+                >
+                  Повторить
+                </button>
+              </div>
+            ) : notifications.length === 0 ? (
               <div className="notification-empty">
                 <div className="notification-empty-icon">🔔</div>
                 <div className="notification-empty-text">
@@ -144,7 +184,7 @@ const NotificationList = () => {
                       {notification.message}
                     </div>
                     <div className="notification-time">
-                      {formatTime(notification.timestamp)}
+                      {formatTime(notification.created_at || notification.timestamp)}
                     </div>
                   </div>
                   <button

@@ -8,4 +8,10 @@ enum NotificationTypeEnum: string
     case SUCCESS = 'success';
     case WARNING = 'warning';
     case ERROR = 'error';
+
+
+    public static function getValues(): array
+    {
+        return array_column(self::cases(), 'value');
+    }
 }

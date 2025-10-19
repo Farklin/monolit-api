@@ -73,8 +73,16 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::post("/permissions", [PermissionController::class, 'store']);
 
 
+    Route::get('/notifications', [NotificationController::class, 'index']);
+    Route::put('/notifications/{id}/read', [NotificationController::class, 'markAsRead']);
+    Route::put('/notifications/mark-all-read', [NotificationController::class, 'markAllAsRead']);
+    Route::delete('/notifications/clear-all', [NotificationController::class, 'clearAll']);
+    Route::delete('/notifications/{id}', [NotificationController::class, 'destroy']);
+
+
+})->middleware('auth:sanctum');
     // Системное уведомление (всем)
     Route::post('/notifications/send', [NotificationController::class, 'send']);
+
     // Персональное уведомление конкретному пользователю
     Route::post('/notifications/send-to-user', [NotificationController::class, 'sendToUser']);
-})->middleware('auth:sanctum');

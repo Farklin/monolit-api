@@ -8,7 +8,7 @@ class SystemNotification extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['title', 'message', 'type', 'user_id'];
+    protected $fillable = ['title', 'message', 'type', 'user_id', 'read'];
 
     public function user()
     {

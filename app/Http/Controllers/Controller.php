@@ -15,6 +15,10 @@ abstract class Controller
      */
     protected function checkPermission(string $permission, ?string $message = null): ?JsonResponse
     {
+        if(!env("CHECK_PERMISSIONS", default: false)) {
+            return null;
+        }
+
         $user = request()->user();
 
         if (!$user || !$user->hasPermissionTo($permission)) {
