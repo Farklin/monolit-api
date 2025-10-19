@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Context;
 use App\Http\Requests\Context\CreateContextRequest;
 use App\Http\Requests\Context\UpdateContextRequest;
-
+use App\Enum\PermissonEnum;
 /**
  * @OA\Tag(
  *     name="Contexts",
@@ -32,6 +32,9 @@ class ContextController extends Controller
      */
     public function index()
     {
+        if ($error = $this->checkPermission(PermissonEnum::READ_CONTEXT->value, 'У вас недостаточно прав для просмотра контекстов')) {
+            return $error;
+        }
         return Context::all();
     }
 
@@ -62,6 +65,9 @@ class ContextController extends Controller
      */
     public function show($id)
     {
+        if ($error = $this->checkPermission(PermissonEnum::READ_CONTEXT->value, 'У вас недостаточно прав для просмотра контекстов')) {
+            return $error;
+        }
         return Context::findOrFail($id);
     }
 
@@ -94,6 +100,9 @@ class ContextController extends Controller
      */
     public function store(CreateContextRequest $request)
     {
+        if ($error = $this->checkPermission(PermissonEnum::CREATE_CONTEXT->value, 'У вас недостаточно прав для создания контекстов')) {
+            return $error;
+        }
         return Context::create($request->validated());
     }
 
@@ -136,6 +145,9 @@ class ContextController extends Controller
      */
     public function update(UpdateContextRequest $request, $id)
     {
+        if ($error = $this->checkPermission(PermissonEnum::UPDATE_CONTEXT->value, 'У вас недостаточно прав для обновления контекстов')) {
+            return $error;
+        }
         return Context::findOrFail($id)->update($request->validated());
     }
 
@@ -166,6 +178,9 @@ class ContextController extends Controller
      */
     public function destroy($id)
     {
+        if ($error = $this->checkPermission(PermissonEnum::DELETE_CONTEXT->value, 'У вас недостаточно прав для удаления контекстов')) {
+            return $error;
+        }
         return Context::findOrFail($id)->delete();
     }
 }

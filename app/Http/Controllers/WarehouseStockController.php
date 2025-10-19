@@ -7,6 +7,7 @@ use App\Http\Requests\Warehouse\Stock\CreateWarehouseStockRequest;
 use App\Models\WarehouseStock;
 use App\Http\Requests\Warehouse\Stock\UpdateWarehouseStockRequest;
 use App\Models\Context;
+use App\Enum\PermissonEnum;
 /**
  * @OA\Tag(
  *     name="Warehouse Stocks",
@@ -33,6 +34,9 @@ class WarehouseStockController extends Controller
      */
     public function index(Request $request)
     {
+        if ($error = $this->checkPermission(PermissonEnum::READ_WAREHOUSE_STOCK->value, 'У вас недостаточно прав для просмотра складских остатков')) {
+            return $error;
+        }
         $query = WarehouseStock::query();
 
         // Фильтр по контексту (через warehouse)
@@ -76,6 +80,9 @@ class WarehouseStockController extends Controller
      */
     public function show($id)
     {
+        if ($error = $this->checkPermission(PermissonEnum::READ_WAREHOUSE_STOCK->value, 'У вас недостаточно прав для просмотра складских остатков')) {
+            return $error;
+        }
         return WarehouseStock::findOrFail($id);
     }
 
@@ -111,6 +118,9 @@ class WarehouseStockController extends Controller
      * )
      */
     public function store(CreateWarehouseStockRequest $request){
+        if ($error = $this->checkPermission(PermissonEnum::CREATE_WAREHOUSE_STOCK->value, 'У вас недостаточно прав для создания складских остатков')) {
+            return $error;
+        }
         $data = $request->validated();
         $exists = WarehouseStock::where('warehouse_id', $data['warehouse_id'])->where('category_id', $data['category_id'])->exists();
         if($exists){
@@ -153,6 +163,9 @@ class WarehouseStockController extends Controller
      * )
      */
     public function update(UpdateWarehouseStockRequest $request, $id){
+        if ($error = $this->checkPermission(PermissonEnum::UPDATE_WAREHOUSE_STOCK->value, 'У вас недостаточно прав для обновления складских остатков')) {
+            return $error;
+        }
         return WarehouseStock::findOrFail($id)->update($request->validated());
     }
 
@@ -178,6 +191,9 @@ class WarehouseStockController extends Controller
      * )
      */
     public function destroy($id){
+        if ($error = $this->checkPermission(PermissonEnum::DELETE_WAREHOUSE_STOCK->value, 'У вас недостаточно прав для удаления складских остатков')) {
+            return $error;
+        }
         return WarehouseStock::findOrFail($id)->delete();
     }
 }

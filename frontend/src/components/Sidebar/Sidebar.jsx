@@ -3,6 +3,7 @@ import React, { useState, useMemo } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { useAuth } from '../../context/AuthContext'
 import './Sidebar.css'
+import { PermissionEnum } from '../../utils/PermissionEnum'
 
 const Sidebar = ({ isOpen }) => {
   const location = useLocation()
@@ -25,32 +26,32 @@ const Sidebar = ({ isOpen }) => {
       name: 'Проекты',
       icon: '🎯',
       path: '/projects',
-      permissions: ['view projects']
+      permissions: [PermissionEnum.READ_PROJECT]
     },
     {
       id: 'contexts',
       name: 'Контексты',
       icon: '📋',
       path: '/contexts',
-      permissions: ['view contexts']
+      permissions: [PermissionEnum.READ_CONTEXT]
     },
     {
       id: 'warehouses',
       name: 'Склады',
       icon: '🏭',
-      permissions: ['view warehouses', 'view warehouse stocks'],
+      permissions: [PermissionEnum.READ_WAREHOUSE, PermissionEnum.READ_WAREHOUSE_STOCK],
       submenu: [
         {
           id: 'warehouses-list',
           name: 'Склады',
           path: '/warehouses',
-          permissions: ['view warehouses']
+          permissions: [PermissionEnum.READ_WAREHOUSE]
         },
         {
           id: 'warehouse-stocks',
           name: 'Остатки по складам',
           path: '/warehouse-stocks',
-          permissions: ['view warehouse stocks']
+          permissions: [PermissionEnum.READ_WAREHOUSE_STOCK]
         }
       ]
     },
@@ -59,25 +60,25 @@ const Sidebar = ({ isOpen }) => {
       name: 'Пользователи',
       icon: '👥',
       path: '/users',
-      permissions: ['view users']
+      permissions: [PermissionEnum.READ_USER]
     },
     {
       id: 'access',
       name: 'Доступы',
       icon: '🔐',
-      permissions: ['view roles', 'view permissions'],
+      permissions: [PermissionEnum.READ_ROLE, PermissionEnum.READ_PERMISSION],
       submenu: [
         {
           id: 'roles',
           name: 'Роли',
           path: '/roles',
-          permissions: ['view roles']
+          permissions: [PermissionEnum.READ_ROLE]
         },
         {
           id: 'permissions',
           name: 'Разрешения',
           path: '/permissions',
-          permissions: ['view permissions']
+          permissions: [PermissionEnum.READ_PERMISSION]
         }
       ]
     },

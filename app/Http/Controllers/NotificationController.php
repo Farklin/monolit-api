@@ -7,17 +7,25 @@ use App\Events\Users\UserNotification;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use App\Enum\PermissonEnum;
+use App\Enum\NotificationTypeEnum;
+use App\Http\Requests\Notification\CreateNotificationRequest;
+use App\Http\Requests\Notification\CreateNotificationToUserRequest;
 
 class NotificationController extends Controller
 {
     /**
      * Отправить системное уведомление (всем)
      */
-    public function send(Request $request): JsonResponse
+    public function send(CreateNotificationRequest $request): JsonResponse
     {
-        $message = $request->input('message', 'Test notification');
-        $title = $request->input('title', 'Notification');
-        $type = $request->input('type', 'info'); // info, success, warning, error
+        if ($error = $this->checkPermission(PermissonEnum::SEND_NOTIFICATION->value, 'У вас недостаточно прав для отправки уведомления')) {
+            return $error;
+        }
+        $data = $request->validated();
+        $message = $data['message'];
+        $title = $data['title'];
+        $type = $data['type'];
 
         event(new MessageSent($message, $title, $type));
 
@@ -35,13 +43,17 @@ class NotificationController extends Controller
     /**
      * Отправить персональное уведомление конкретному пользователю
      */
-    public function sendToUser(Request $request, $userId): JsonResponse
+    public function sendToUser(CreateNotificationToUserRequest $request): JsonResponse
     {
-        $user = User::findOrFail($userId);
+        if ($error = $this->checkPermission(PermissonEnum::SEND_USER_NOTIFICATION->value, 'У вас недостаточно прав для отправки уведомления')) {
+            return $error;
+        }
+        $data = $request->validated();
 
-        $message = $request->input('message', 'Test notification');
-        $title = $request->input('title', 'Notification');
-        $type = $request->input('type', 'info'); // info, success, warning, error
+        $message = $data['message'];
+        $title = $data['title'];
+        $type = $data['type'];
+        $user = User::findOrFail($data['user_id']);
 
         event(new UserNotification($user, $message, $title, $type));
 
@@ -58,4 +70,3 @@ class NotificationController extends Controller
         ]);
     }
 }
-

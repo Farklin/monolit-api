@@ -6,6 +6,7 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
+use App\Enum\PermissonEnum;
 
 class RolesAndPermissionsSeeder extends Seeder
 {
@@ -24,51 +25,53 @@ class RolesAndPermissionsSeeder extends Seeder
         // Создание разрешений
         $permissions = [
             // Пользователи
-            'view users',
-            'create users',
-            'edit users',
-            'delete users',
-
-            // Роли
-            'view roles',
-            'create roles',
-            'edit roles',
-            'delete roles',
-            'manage role permissions',
+            PermissonEnum::CREATE_USER->value,
+            PermissonEnum::READ_USER->value,
+            PermissonEnum::UPDATE_USER->value,
+            PermissonEnum::DELETE_USER->value,
 
             // Разрешения
-            'view permissions',
-            'create permissions',
-            'edit permissions',
-            'delete permissions',
+            PermissonEnum::CREATE_PERMISSION->value,
+            PermissonEnum::READ_PERMISSION->value,
+            PermissonEnum::UPDATE_PERMISSION->value,
+            PermissonEnum::DELETE_PERMISSION->value,
 
             // Проекты
-            'view projects',
-            'create projects',
-            'edit projects',
-            'delete projects',
+            PermissonEnum::CREATE_PROJECT->value,
+            PermissonEnum::READ_PROJECT->value,
+            PermissonEnum::UPDATE_PROJECT->value,
+            PermissonEnum::DELETE_PROJECT->value,
 
             // Контексты
-            'view contexts',
-            'create contexts',
-            'edit contexts',
-            'delete contexts',
+            PermissonEnum::READ_CONTEXT->value,
+            PermissonEnum::CREATE_CONTEXT->value,
+            PermissonEnum::UPDATE_CONTEXT->value,
+            PermissonEnum::DELETE_CONTEXT->value,
 
             // Склады
-            'view warehouses',
-            'create warehouses',
-            'edit warehouses',
-            'delete warehouses',
+            PermissonEnum::READ_WAREHOUSE->value,
+            PermissonEnum::CREATE_WAREHOUSE->value,
+            PermissonEnum::UPDATE_WAREHOUSE->value,
+            PermissonEnum::DELETE_WAREHOUSE->value,
 
             // Остатки на складах
-            'view warehouse stocks',
-            'create warehouse stocks',
-            'edit warehouse stocks',
-            'delete warehouse stocks',
+            PermissonEnum::READ_WAREHOUSE_STOCK->value,
+            PermissonEnum::CREATE_WAREHOUSE_STOCK->value,
+            PermissonEnum::UPDATE_WAREHOUSE_STOCK->value,
+            PermissonEnum::DELETE_WAREHOUSE_STOCK->value,
 
             // Обработка пользователей
-            'handle users roles',
-            'handle users permissions',
+            PermissonEnum::HANDLE_USERS_PERMISSIONS->value,
+            PermissonEnum::HANDLE_USERS_ROLES->value,
+
+            // Роли
+            PermissonEnum::CREATE_ROLE->value,
+            PermissonEnum::READ_ROLE->value,
+            PermissonEnum::UPDATE_ROLE->value,
+            PermissonEnum::DELETE_ROLE->value,
+
+            // Уведомления
+            PermissonEnum::SEND_NOTIFICATION->value,
         ];
 
         foreach ($permissions as $permission) {
@@ -97,27 +100,29 @@ class RolesAndPermissionsSeeder extends Seeder
 
         // Назначение разрешений менеджеру
         $managerRole->givePermissionTo([
-            'view users',
-            'view projects',
-            'create projects',
-            'edit projects',
-            'view contexts',
-            'create contexts',
-            'edit contexts',
-            'view warehouses',
-            'create warehouses',
-            'edit warehouses',
-            'view warehouse stocks',
-            'create warehouse stocks',
-            'edit warehouse stocks',
+            PermissonEnum::READ_PROJECT->value,
+            PermissonEnum::CREATE_PROJECT->value,
+            PermissonEnum::UPDATE_PROJECT->value,
+            PermissonEnum::READ_CONTEXT->value,
+            PermissonEnum::CREATE_CONTEXT->value,
+            PermissonEnum::UPDATE_CONTEXT->value,
+            PermissonEnum::DELETE_CONTEXT->value,
+            PermissonEnum::READ_WAREHOUSE->value,
+            PermissonEnum::CREATE_WAREHOUSE->value,
+            PermissonEnum::UPDATE_WAREHOUSE->value,
+            PermissonEnum::DELETE_WAREHOUSE->value,
+            PermissonEnum::READ_WAREHOUSE_STOCK->value,
+            PermissonEnum::CREATE_WAREHOUSE_STOCK->value,
+            PermissonEnum::UPDATE_WAREHOUSE_STOCK->value,
+            PermissonEnum::DELETE_WAREHOUSE_STOCK->value,
         ]);
 
         // Назначение разрешений обычному пользователю
         $userRole->givePermissionTo([
-            'view projects',
-            'view contexts',
-            'view warehouses',
-            'view warehouse stocks',
+            PermissonEnum::READ_PROJECT->value,
+            PermissonEnum::READ_CONTEXT->value,
+            PermissonEnum::READ_WAREHOUSE->value,
+            PermissonEnum::READ_WAREHOUSE_STOCK->value,
         ]);
 
         $this->command->info('Роли и разрешения успешно созданы!');

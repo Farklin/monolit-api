@@ -11,7 +11,7 @@ use App\Services\Warehouse\WarehouseService;
 use App\Dto\Warehouse\QueryWarehouseStrockDto;
 use Illuminate\Support\Facades\Cache;
 use App\Models\Context;
-
+use App\Enum\PermissonEnum;
 /**
  * @OA\Tag(
  *     name="Warehouses",
@@ -37,6 +37,10 @@ class WarehouseController extends Controller
      */
     public function index(Request $request)
     {
+        if ($error = $this->checkPermission(PermissonEnum::READ_WAREHOUSE->value, 'У вас недостаточно прав для просмотра складов')) {
+            return $error;
+        }
+
         $query = Warehouse::query();
 
         if($request->has("current_context_id")){
@@ -73,6 +77,9 @@ class WarehouseController extends Controller
      */
     public function show($id)
     {
+        if ($error = $this->checkPermission(PermissonEnum::READ_WAREHOUSE->value, 'У вас недостаточно прав для просмотра складов')) {
+            return $error;
+        }
         return Warehouse::findOrFail($id);
     }
 
@@ -107,6 +114,9 @@ class WarehouseController extends Controller
      */
     public function store(CreateWarehouseRequest $request)
     {
+        if ($error = $this->checkPermission(PermissonEnum::CREATE_WAREHOUSE->value, 'У вас недостаточно прав для создания складов')) {
+            return $error;
+        }
         return Warehouse::create($request->validated());
     }
 
@@ -147,6 +157,9 @@ class WarehouseController extends Controller
      */
     public function update(UpdateWarehouseRequest $request, $id)
     {
+        if ($error = $this->checkPermission(PermissonEnum::UPDATE_WAREHOUSE->value, 'У вас недостаточно прав для обновления складов')) {
+            return $error;
+        }
         return Warehouse::findOrFail($id)->update($request->validated());
     }
 
@@ -173,6 +186,9 @@ class WarehouseController extends Controller
      */
     public function destroy($id)
     {
+        if ($error = $this->checkPermission(PermissonEnum::DELETE_WAREHOUSE->value, 'У вас недостаточно прав для удаления складов')) {
+            return $error;
+        }
         return Warehouse::findOrFail($id)->delete();
     }
 

@@ -14,6 +14,7 @@ use App\Events\Users\RegisterUser;
 use App\Events\Users\UserNotification;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
+use App\Enum\PermissonEnum;
 /**
  * @OA\Tag(
  *     name="Users",
@@ -66,7 +67,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        if ($error = $this->checkPermission('view users', 'У вас недостаточно прав для просмотра пользователей')) {
+        if ($error = $this->checkPermission(PermissonEnum::READ_USER->value, 'У вас недостаточно прав для просмотра пользователей')) {
             return $error;
         }
         return User::with(['roles', 'permissions'])->get();
@@ -123,7 +124,7 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        if ($error = $this->checkPermission('view users', 'У вас недостаточно прав для просмотра пользователей')) {
+        if ($error = $this->checkPermission(PermissonEnum::READ_USER->value, 'У вас недостаточно прав для просмотра пользователей')) {
             return $error;
         }
         return User::with(['roles', 'permissions'])->findOrFail($id);
@@ -167,7 +168,7 @@ class UserController extends Controller
      */
     public function store(CreateUserRequest $request)
     {
-        if ($error = $this->checkPermission('create users', 'У вас недостаточно прав для создания пользователей')) {
+        if ($error = $this->checkPermission(PermissonEnum::CREATE_USER->value, 'У вас недостаточно прав для создания пользователей')) {
             return $error;
         }
         $user = User::create($request->validated());
@@ -219,7 +220,7 @@ class UserController extends Controller
      */
     public function update(UpdateUserRequest $request, $id)
     {
-        if ($error = $this->checkPermission('update users', 'У вас недостаточно прав для обновления пользователей')) {
+        if ($error = $this->checkPermission(PermissonEnum::UPDATE_USER->value, 'У вас недостаточно прав для обновления пользователей')) {
             return $error;
         }
         return User::findOrFail($id)->update($request->validated());
@@ -291,7 +292,7 @@ class UserController extends Controller
      */
     public function addRoleToUser(AddRoleToUserRequest $request)
     {
-        if ($error = $this->checkPermission('handle users roles', 'У вас недостаточно прав для назначения роли пользователю')) {
+        if ($error = $this->checkPermission(PermissonEnum::HANDLE_USERS_ROLES->value, 'У вас недостаточно прав для назначения роли пользователю')) {
             return $error;
         }
         $data = $request->validated();
@@ -420,7 +421,7 @@ class UserController extends Controller
      */
     public function removePermissionFromUser(RemovePermissionFromUserRequest $request)
     {
-        if ($error = $this->checkPermission('handle users permissions', 'У вас недостаточно прав для удаления разрешения у пользователя')) {
+        if ($error = $this->checkPermission(PermissonEnum::HANDLE_USERS_PERMISSIONS->value, 'У вас недостаточно прав для удаления разрешения у пользователя')) {
             return $error;
         }
         $data = $request->validated();

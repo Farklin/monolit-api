@@ -8,7 +8,7 @@ use App\Http\Requests\Role\CreateRoleRequest;
 use Spatie\Permission\Models\Permission;
 use App\Http\Requests\Role\AddPermissionToRoleRequest;
 use App\Http\Requests\Role\RemovePermissionToRoleRequest;
-
+use App\Enum\PermissonEnum;
 /**
  * @OA\Tag(
  *     name="Roles",
@@ -51,6 +51,9 @@ class RoleController extends Controller
      */
     public function index()
     {
+        if ($error = $this->checkPermission(PermissonEnum::READ_ROLE->value, 'У вас недостаточно прав для просмотра ролей')) {
+            return $error;
+        }
         return Role::with('permissions')->get();
     }
 
@@ -91,6 +94,9 @@ class RoleController extends Controller
      */
     public function show($id)
     {
+        if ($error = $this->checkPermission(PermissonEnum::READ_ROLE->value, 'У вас недостаточно прав для просмотра ролей')) {
+            return $error;
+        }
         return Role::with('permissions')->findOrFail($id);
     }
 
@@ -125,6 +131,9 @@ class RoleController extends Controller
      */
     public function store(CreateRoleRequest $request)
     {
+        if ($error = $this->checkPermission(PermissonEnum::CREATE_ROLE->value, 'У вас недостаточно прав для создания ролей')) {
+            return $error;
+        }
         return Role::create($request->validated());
     }
 
@@ -188,6 +197,9 @@ class RoleController extends Controller
      */
     public function addPermissionToRole(AddPermissionToRoleRequest $request)
     {
+        if ($error = $this->checkPermission(PermissonEnum::HANDLE_USERS_PERMISSIONS->value, 'У вас недостаточно прав для добавления разрешения в роль')) {
+            return $error;
+        }
         $data = $request->validated();
         $role = Role::findOrFail($data['role_id']);
         $permission = Permission::findOrFail($data['permission_id']);

@@ -16,9 +16,9 @@ class WarehouseStockFactory extends Factory
         return [
             'updated_at' => Carbon::now(),
             'created_at' => Carbon::now(),
-            'min_quantity' => $this->faker->randomNumber(),
-            'max_quantity' => $this->faker->randomNumber(),
-            'category_id' => $this->faker->randomNumber(),
+            'min_quantity' => $this->faker->numberBetween(0, 100),
+            'max_quantity' => $this->faker->numberBetween(100, 1000),
+            'category_id' => $this->faker->numberBetween(1, 10), // Ограничиваем диапазон для избежания конфликтов
             'warehouse_id' => Warehouse::factory(),
         ];
     }

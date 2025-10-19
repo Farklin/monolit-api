@@ -18,7 +18,7 @@ class ProjectFactory extends Factory
             'priority' => $this->faker->randomNumber(),
             'status' => $this->faker->boolean(),
             'description' => $this->faker->text(),
-            'key' => $this->faker->word(),
+            'key' => $this->faker->unique()->word(),
             'name' => $this->faker->name(),
         ];
     }

@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Spatie\Permission\Models\Permission;
 use App\Http\Requests\Permission\CreatePermissionRequest;
 use App\Http\Requests\Permission\UpdatePermissionRequest;
-
+use App\Enum\PermissonEnum;
 /**
  * @OA\Tag(
  *     name="Permissions",
@@ -39,6 +39,9 @@ class PermissionController extends Controller
      */
     public function index()
     {
+        if ($error = $this->checkPermission(PermissonEnum::READ_PERMISSION->value, 'У вас недостаточно прав для просмотра разрешений')) {
+            return $error;
+        }
         return Permission::all();
     }
 
@@ -69,6 +72,9 @@ class PermissionController extends Controller
      */
     public function show($id)
     {
+        if ($error = $this->checkPermission(PermissonEnum::READ_PERMISSION->value, 'У вас недостаточно прав для просмотра разрешений')) {
+            return $error;
+        }
         return Permission::findOrFail($id);
     }
 
@@ -102,6 +108,9 @@ class PermissionController extends Controller
      */
     public function store(CreatePermissionRequest $request)
     {
+        if ($error = $this->checkPermission(PermissonEnum::CREATE_PERMISSION->value, 'У вас недостаточно прав для создания разрешений')) {
+            return $error;
+        }
         return Permission::create($request->validated());
     }
 
@@ -146,6 +155,9 @@ class PermissionController extends Controller
      */
     public function update($id, UpdatePermissionRequest $request)
     {
+        if ($error = $this->checkPermission(PermissonEnum::UPDATE_PERMISSION->value, 'У вас недостаточно прав для обновления разрешений')) {
+            return $error;
+        }
         $permission = Permission::findOrFail($id);
         $permission->update($request->validated());
         return response()->json(['message' => 'Разрешение обновлено успешно', 'data' => $permission]);
@@ -174,7 +186,9 @@ class PermissionController extends Controller
      */
     public function destroy($id)
     {
-        return Permission::findById($id)->delete();
-
+        if ($error = $this->checkPermission(PermissonEnum::DELETE_PERMISSION->value, 'У вас недостаточно прав для удаления разрешений')) {
+            return $error;
+        }
+        return Permission::findOrFail($id)->delete();
     }
 }

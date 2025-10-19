@@ -76,5 +76,5 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     // Системное уведомление (всем)
     Route::post('/notifications/send', [NotificationController::class, 'send']);
     // Персональное уведомление конкретному пользователю
-    Route::post('/notifications/send-to-user/{userId}', [NotificationController::class, 'sendToUser']);
+    Route::post('/notifications/send-to-user', [NotificationController::class, 'sendToUser']);
 })->middleware('auth:sanctum');

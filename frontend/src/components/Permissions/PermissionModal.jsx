@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { PermissionEnum, getAllPermissions, getPermissionDisplayName } from '../../utils/PermissionEnum'
 import './PermissionModal.css'
 
 const PermissionModal = ({ isOpen, onClose, onSubmit, permission }) => {
@@ -6,6 +7,7 @@ const PermissionModal = ({ isOpen, onClose, onSubmit, permission }) => {
     name: '',
     guard_name: 'web'
   })
+  const [usePredefined, setUsePredefined] = useState(false)
 
   useEffect(() => {
     if (permission) {
@@ -13,11 +15,13 @@ const PermissionModal = ({ isOpen, onClose, onSubmit, permission }) => {
         name: permission.name || '',
         guard_name: permission.guard_name || 'web'
       })
+      setUsePredefined(getAllPermissions().includes(permission.name))
     } else {
       setFormData({
         name: '',
         guard_name: 'web'
       })
+      setUsePredefined(false)
     }
   }, [permission])
 
@@ -35,6 +39,14 @@ const PermissionModal = ({ isOpen, onClose, onSubmit, permission }) => {
     }))
   }
 
+  const handlePredefinedChange = (e) => {
+    const selectedPermission = e.target.value
+    setFormData(prev => ({
+      ...prev,
+      name: selectedPermission
+    }))
+  }
+
   if (!isOpen) return null
 
   return (
@@ -47,17 +59,47 @@ const PermissionModal = ({ isOpen, onClose, onSubmit, permission }) => {
 
         <form onSubmit={handleSubmit}>
           <div className="form-group">
-            <label htmlFor="name">Название разрешения *</label>
-            <input
-              type="text"
-              id="name"
-              name="name"
-              value={formData.name}
-              onChange={handleChange}
-              placeholder="Например: create users, edit posts"
-              required
-            />
+            <label>
+              <input
+                type="checkbox"
+                checked={usePredefined}
+                onChange={(e) => setUsePredefined(e.target.checked)}
+              />
+              {' '}Использовать предопределенное разрешение
+            </label>
           </div>
+
+          {usePredefined ? (
+            <div className="form-group">
+              <label htmlFor="predefined-permission">Выберите разрешение *</label>
+              <select
+                id="predefined-permission"
+                value={formData.name}
+                onChange={handlePredefinedChange}
+                required
+              >
+                <option value="">-- Выберите разрешение --</option>
+                {getAllPermissions().map(permission => (
+                  <option key={permission} value={permission}>
+                    {getPermissionDisplayName(permission)} ({permission})
+                  </option>
+                ))}
+              </select>
+            </div>
+          ) : (
+            <div className="form-group">
+              <label htmlFor="name">Название разрешения *</label>
+              <input
+                type="text"
+                id="name"
+                name="name"
+                value={formData.name}
+                onChange={handleChange}
+                placeholder="Например: create users, edit posts"
+                required
+              />
+            </div>
+          )}
 
           <div className="form-group">
             <label htmlFor="guard_name">Guard</label>

@@ -1,4 +1,5 @@
 import React from 'react'
+import { getPermissionDisplayName } from '../../utils/PermissionEnum'
 import './PermissionsTable.css'
 
 const PermissionsTable = ({ permissions, onEdit, onDelete }) => {
@@ -26,7 +27,11 @@ const PermissionsTable = ({ permissions, onEdit, onDelete }) => {
               <tr key={permission.id}>
                 <td>{permission.id}</td>
                 <td>
-                  <span className="permission-name">{permission.name}</span>
+                  <span className="permission-name">
+                    {getPermissionDisplayName(permission.name)}
+                  </span>
+                  <br />
+                  <small className="permission-code">{permission.name}</small>
                 </td>
                 <td>{permission.guard_name}</td>
                 <td>{new Date(permission.created_at).toLocaleDateString('ru-RU')}</td>
