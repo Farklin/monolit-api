@@ -119,8 +119,8 @@
                                 },
                                 "type": "object",
                                 "example": {
-                                    "email": "john@doe.com",
-                                    "password": "password"
+                                    "email": "admin@mlt-it.ru",
+                                    "password": "admin"
                                 }
                             }
                         }
@@ -229,6 +229,952 @@
                                 }
                             }
                         }
+                    }
+                }
+            }
+        },
+        "/api/banner-categories": {
+            "get": {
+                "tags": [
+                    "Banners"
+                ],
+                "summary": "Получение списка категорий баннеров",
+                "description": "Возвращает список категорий баннеров с возможностью фильтрации по контексту, типу и категории",
+                "operationId": "0f16c51e2fe0344c53a25427609e54f5",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/AcceptJson"
+                    },
+                    {
+                        "name": "context_id",
+                        "in": "query",
+                        "description": "ID контекста для фильтрации",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    },
+                    {
+                        "name": "type",
+                        "in": "query",
+                        "description": "Тип категории баннера",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "enum": [
+                                "catalog",
+                                "promo"
+                            ],
+                            "example": "catalog"
+                        }
+                    },
+                    {
+                        "name": "category_id",
+                        "in": "query",
+                        "description": "ID категории для фильтрации",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Успешный ответ",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "conditions": {
+                                            "description": "Условия фильтрации",
+                                            "type": "object"
+                                        },
+                                        "banners": {
+                                            "description": "Список баннеров",
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Banners"
+                ],
+                "summary": "Создание категории баннера",
+                "description": "Создает новую категорию баннера с указанными параметрами",
+                "operationId": "075a02a781c44a7d815443b7aaeef0c9",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/AcceptJson"
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "context_id",
+                                    "banner_id",
+                                    "type",
+                                    "category_id",
+                                    "priority"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "description": "Название категории баннера",
+                                        "type": "string",
+                                        "example": "Banner Category 1"
+                                    },
+                                    "context_id": {
+                                        "description": "ID контекста",
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "banner_id": {
+                                        "description": "ID баннера",
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "type": {
+                                        "description": "Тип категории",
+                                        "type": "string",
+                                        "enum": [
+                                            "catalog",
+                                            "promo"
+                                        ],
+                                        "example": "catalog"
+                                    },
+                                    "category_id": {
+                                        "description": "ID категории",
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "priority": {
+                                        "description": "Приоритет отображения",
+                                        "type": "integer",
+                                        "example": 1
+                                    }
+                                },
+                                "type": "object",
+                                "example": {
+                                    "name": "Banner Category 1",
+                                    "context_id": 1,
+                                    "banner_id": 1,
+                                    "type": "catalog",
+                                    "category_id": 1,
+                                    "priority": 1
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Категория баннера успешно создана",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Banner category created successfully"
+                                        },
+                                        "banner_category": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "name": {
+                                                    "type": "string",
+                                                    "example": "Banner Category 1"
+                                                },
+                                                "context_id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "banner_id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "type": {
+                                                    "type": "string",
+                                                    "example": "catalog"
+                                                },
+                                                "category_id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "priority": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "created_at": {
+                                                    "type": "string",
+                                                    "format": "datetime",
+                                                    "example": "2021-01-01 00:00:00"
+                                                },
+                                                "updated_at": {
+                                                    "type": "string",
+                                                    "format": "datetime",
+                                                    "example": "2021-01-01 00:00:00"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Ошибка валидации",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "The given data was invalid."
+                                        },
+                                        "errors": {
+                                            "properties": {
+                                                "name": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string",
+                                                        "example": "The name field is required."
+                                                    }
+                                                },
+                                                "context_id": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string",
+                                                        "example": "The context id field is required."
+                                                    }
+                                                },
+                                                "banner_id": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string",
+                                                        "example": "The banner id field is required."
+                                                    }
+                                                },
+                                                "type": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string",
+                                                        "example": "The type field is required."
+                                                    }
+                                                },
+                                                "category_id": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string",
+                                                        "example": "The category id field is required."
+                                                    }
+                                                },
+                                                "priority": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string",
+                                                        "example": "The priority field is required."
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/banner-categories/{id}": {
+            "put": {
+                "tags": [
+                    "Banners"
+                ],
+                "summary": "Обновление категории баннера",
+                "description": "Обновляет существующую категорию баннера по ID",
+                "operationId": "2c77bc031976cbc7619ca3c9b320a062",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/AcceptJson"
+                    },
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID категории баннера",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "context_id",
+                                    "banner_id",
+                                    "type",
+                                    "category_id",
+                                    "priority"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "description": "Название категории баннера",
+                                        "type": "string",
+                                        "example": "Banner Category 1"
+                                    },
+                                    "context_id": {
+                                        "description": "ID контекста",
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "banner_id": {
+                                        "description": "ID баннера",
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "type": {
+                                        "description": "Тип категории",
+                                        "type": "string",
+                                        "enum": [
+                                            "catalog",
+                                            "promo"
+                                        ],
+                                        "example": "catalog"
+                                    },
+                                    "category_id": {
+                                        "description": "ID категории",
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "priority": {
+                                        "description": "Приоритет отображения",
+                                        "type": "integer",
+                                        "example": 1
+                                    }
+                                },
+                                "type": "object",
+                                "example": {
+                                    "name": "Banner Category 1",
+                                    "context_id": 1,
+                                    "banner_id": 1,
+                                    "type": "catalog",
+                                    "category_id": 1,
+                                    "priority": 1
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Категория баннера успешно обновлена",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Категория баннера не найдена"
+                    },
+                    "422": {
+                        "description": "Ошибка валидации",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "The given data was invalid."
+                                        },
+                                        "errors": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Banners"
+                ],
+                "summary": "Удаление категории баннера",
+                "description": "Удаляет категорию баннера по ID",
+                "operationId": "42c4ae9c7294b57f8ffc14ba59096318",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/AcceptJson"
+                    },
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID категории баннера",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Категория баннера успешно удалена",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Banner category deleted successfully"
+                                        },
+                                        "banner_category": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "name": {
+                                                    "type": "string",
+                                                    "example": "Banner Category 1"
+                                                },
+                                                "context_id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "banner_id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "type": {
+                                                    "type": "string",
+                                                    "example": "catalog"
+                                                },
+                                                "category_id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "priority": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "created_at": {
+                                                    "type": "string",
+                                                    "format": "datetime",
+                                                    "example": "2021-01-01 00:00:00"
+                                                },
+                                                "updated_at": {
+                                                    "type": "string",
+                                                    "format": "datetime",
+                                                    "example": "2021-01-01 00:00:00"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Категория баннера не найдена"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/banners/upload": {
+            "post": {
+                "tags": [
+                    "Banners"
+                ],
+                "summary": "Загрузка баннеров",
+                "description": "Загрузка баннеров в систему",
+                "operationId": "uploadBanners",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/AcceptJson"
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "properties": {
+                                    "banners": {
+                                        "description": "Массив файлов баннеров",
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string",
+                                            "format": "binary"
+                                        }
+                                    },
+                                    "type": {
+                                        "description": "Тип баннера",
+                                        "type": "string",
+                                        "enum": [
+                                            "default",
+                                            "mobile",
+                                            "tablet",
+                                            "desktop",
+                                            "all"
+                                        ]
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Баннеры успешно загружены",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Баннеры успешно загружены"
+                                        },
+                                        "images": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            },
+                                            "example": [
+                                                "banners/banner1.jpg",
+                                                "banners/banner2.jpg"
+                                            ]
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Ошибка валидации",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "The given data was invalid."
+                                        },
+                                        "errors": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/banners": {
+            "get": {
+                "tags": [
+                    "Banners"
+                ],
+                "summary": "Получение списка баннеров",
+                "description": "Возвращает список всех баннеров с возможностью фильтрации по типу",
+                "operationId": "ef6e2a0694446d424bc4d5fa2458f5b1",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/AcceptJson"
+                    },
+                    {
+                        "name": "type",
+                        "in": "query",
+                        "description": "Фильтр по типу баннера",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "enum": [
+                                "default",
+                                "mobile",
+                                "tablet",
+                                "desktop",
+                                "all"
+                            ]
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Список баннеров",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "id": {
+                                                "type": "integer",
+                                                "example": 1
+                                            },
+                                            "image": {
+                                                "type": "string",
+                                                "example": "banners/banner_1234567890.jpg"
+                                            },
+                                            "type": {
+                                                "type": "string",
+                                                "example": "default"
+                                            },
+                                            "parent_id": {
+                                                "type": "integer",
+                                                "example": null,
+                                                "nullable": true
+                                            },
+                                            "created_at": {
+                                                "type": "string",
+                                                "format": "datetime",
+                                                "example": "2023-10-23T10:30:00.000000Z"
+                                            },
+                                            "updated_at": {
+                                                "type": "string",
+                                                "format": "datetime",
+                                                "example": "2023-10-23T10:30:00.000000Z"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/banners/{id}": {
+            "get": {
+                "tags": [
+                    "Banners"
+                ],
+                "summary": "Get banner by ID",
+                "operationId": "a8c88eec6df3d3d95cffe6cc74c39489",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/AcceptJson"
+                    },
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "image": {
+                                            "type": "string",
+                                            "example": "banners/banner_1234567890.jpg"
+                                        },
+                                        "type": {
+                                            "type": "string",
+                                            "example": "default"
+                                        },
+                                        "parent_id": {
+                                            "type": "integer",
+                                            "example": null,
+                                            "nullable": true
+                                        },
+                                        "created_at": {
+                                            "type": "string",
+                                            "format": "datetime",
+                                            "example": "2023-10-23T10:30:00.000000Z"
+                                        },
+                                        "updated_at": {
+                                            "type": "string",
+                                            "format": "datetime",
+                                            "example": "2023-10-23T10:30:00.000000Z"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Banner not found"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Banners"
+                ],
+                "summary": "Обновление баннера",
+                "description": "Обновляет существующий баннер по ID с возможностью загрузки нового изображения",
+                "operationId": "527b43650ac24e20b1063464e3d0f11a",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/AcceptJson"
+                    },
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID баннера",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "properties": {
+                                    "image": {
+                                        "description": "Новое изображение баннера (jpeg, png, jpg, gif, svg, max 2MB)",
+                                        "type": "string",
+                                        "format": "binary"
+                                    },
+                                    "type": {
+                                        "description": "Тип баннера",
+                                        "type": "string",
+                                        "enum": [
+                                            "default",
+                                            "mobile",
+                                            "tablet",
+                                            "desktop",
+                                            "all"
+                                        ]
+                                    },
+                                    "banner_id": {
+                                        "description": "ID родительского баннера",
+                                        "type": "integer"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Баннер успешно обновлен",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Banner updated successfully"
+                                        },
+                                        "banner": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "image": {
+                                                    "type": "string",
+                                                    "example": "banners/banner_1234567890.jpg"
+                                                },
+                                                "type": {
+                                                    "type": "string",
+                                                    "example": "default"
+                                                },
+                                                "banner_id": {
+                                                    "type": "integer",
+                                                    "example": null,
+                                                    "nullable": true
+                                                },
+                                                "created_at": {
+                                                    "type": "string",
+                                                    "format": "datetime",
+                                                    "example": "2023-10-23T10:30:00.000000Z"
+                                                },
+                                                "updated_at": {
+                                                    "type": "string",
+                                                    "format": "datetime",
+                                                    "example": "2023-10-23T10:30:00.000000Z"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Баннер не найден"
+                    },
+                    "422": {
+                        "description": "Ошибка валидации",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "The given data was invalid."
+                                        },
+                                        "errors": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Banners"
+                ],
+                "summary": "Delete banner by ID",
+                "operationId": "2cbc019e9409a6b75b5f441bbae16d8d",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/AcceptJson"
+                    },
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Banner deleted successfully"
+                                        },
+                                        "banner": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "image": {
+                                                    "type": "string",
+                                                    "example": "banners/banner_1234567890.jpg"
+                                                },
+                                                "type": {
+                                                    "type": "string",
+                                                    "example": "default"
+                                                },
+                                                "parent_id": {
+                                                    "type": "integer",
+                                                    "example": null,
+                                                    "nullable": true
+                                                },
+                                                "created_at": {
+                                                    "type": "string",
+                                                    "format": "datetime",
+                                                    "example": "2023-10-23T10:30:00.000000Z"
+                                                },
+                                                "updated_at": {
+                                                    "type": "string",
+                                                    "format": "datetime",
+                                                    "example": "2023-10-23T10:30:00.000000Z"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Banner not found"
                     }
                 }
             }
@@ -1036,7 +1982,12 @@
                             }
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
             },
             "post": {
                 "tags": [
@@ -1101,7 +2052,12 @@
                             }
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
             }
         },
         "/api/projects/{id}": {
@@ -1141,7 +2097,12 @@
                     "404": {
                         "description": "Project not found"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
             },
             "put": {
                 "tags": [
@@ -1753,7 +2714,12 @@
                             }
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
             },
             "post": {
                 "tags": [
@@ -1826,7 +2792,12 @@
                     "400": {
                         "description": "Validation error"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
             }
         },
         "/api/users/{id}": {
@@ -2386,7 +3357,12 @@
                             }
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
             },
             "post": {
                 "tags": [
@@ -2448,7 +3424,12 @@
                             }
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
             }
         },
         "/api/warehouses/{id}": {
@@ -2485,7 +3466,12 @@
                             }
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
             },
             "put": {
                 "tags": [
@@ -2880,10 +3866,36 @@
             }
         }
     },
+    "components": {
+        "parameters": {
+            "AcceptJson": {
+                "name": "Accept",
+                "in": "header",
+                "description": "Accept JSON response",
+                "required": true,
+                "schema": {
+                    "type": "string",
+                    "default": "application/json"
+                }
+            }
+        },
+        "securitySchemes": {
+            "sanctum": {
+                "type": "apiKey",
+                "description": "Enter token in format (Bearer <token>)",
+                "name": "Authorization",
+                "in": "header"
+            }
+        }
+    },
     "tags": [
         {
             "name": "Auth",
             "description": "Auth API"
+        },
+        {
+            "name": "Banners",
+            "description": "Banners API"
         },
         {
             "name": "Contexts",
@@ -2916,6 +3928,11 @@
         {
             "name": "Notifications",
             "description": "Notifications"
+        }
+    ],
+    "security": [
+        {
+            "sanctum": []
         }
     ]
 }

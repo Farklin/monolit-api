@@ -25,6 +25,7 @@ class WarehouseController extends Controller
      *     path="/api/warehouses",
      *     summary="Fetch data",
      *     tags={"Warehouses"},
+     *     security={{"sanctum":{}}},
      *     @OA\Response(
      *         response=200,
      *         description="Success",
@@ -59,6 +60,7 @@ class WarehouseController extends Controller
      *     path="/api/warehouses/{id}",
      *     summary="Fetch data by id",
      *     tags={"Warehouses"},
+     *     security={{"sanctum":{}}},
      *     @OA\Parameter(
      *         name="id",
      *         in="path",
@@ -88,6 +90,7 @@ class WarehouseController extends Controller
      *     path="/api/warehouses",
      *     summary="Create data",
      *     tags={"Warehouses"},
+     *     security={{"sanctum":{}}},
      *     @OA\RequestBody(
      *         @OA\MediaType(
      *             mediaType="application/json",

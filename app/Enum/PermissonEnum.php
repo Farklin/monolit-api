@@ -44,4 +44,15 @@ enum PermissonEnum: string
 
     case HANDLE_USERS_PERMISSIONS = 'handle_users_permissions';
     case HANDLE_USERS_ROLES = 'handle_users_roles';
+
+
+    case CREATE_BANNER = 'create_banner';
+    case READ_BANNER = 'read_banner';
+    case UPDATE_BANNER = 'update_banner';
+    case DELETE_BANNER = 'delete_banner';
+
+    case CREATE_BANNER_CATEGORY = 'create_banner_category';
+    case READ_BANNER_CATEGORY = 'read_banner_category';
+    case UPDATE_BANNER_CATEGORY = 'update_banner_category';
+    case DELETE_BANNER_CATEGORY = 'delete_banner_category';
 }

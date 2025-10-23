@@ -8,7 +8,7 @@ import { PermissionEnum } from '../../utils/PermissionEnum'
 const Sidebar = ({ isOpen }) => {
   const location = useLocation()
   const { hasAnyPermission } = useAuth()
-  const [openDropdowns, setOpenDropdowns] = useState(new Set(['warehouses']))
+  const [openDropdowns, setOpenDropdowns] = useState(new Set(['warehouses', 'banners']))
 
   const toggleDropdown = (id) => {
     const newSet = new Set(openDropdowns)
@@ -61,6 +61,26 @@ const Sidebar = ({ isOpen }) => {
       icon: '👥',
       path: '/users',
       permissions: [PermissionEnum.READ_USER]
+    },
+    {
+      id: 'banners',
+      name: 'Баннеры',
+      icon: '🖼️',
+      permissions: [PermissionEnum.READ_BANNER, PermissionEnum.READ_BANNER_CATEGORY],
+      submenu: [
+        {
+          id: 'banners-list',
+          name: 'Баннеры',
+          path: '/banners',
+          permissions: [PermissionEnum.READ_BANNER]
+        },
+        {
+          id: 'banner-categories',
+          name: 'Категории баннеров',
+          path: '/banner-categories',
+          permissions: [PermissionEnum.READ_BANNER_CATEGORY]
+        }
+      ]
     },
     {
       id: 'access',

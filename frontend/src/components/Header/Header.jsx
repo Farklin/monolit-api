@@ -74,7 +74,7 @@ const Header = ({ toggleSidebar }) => {
   return (
     <header className="header">
       <div className="header-left">
-        <button className="menu-toggle" onClick={toggleSidebar}>
+        <button type="button" className="menu-toggle" onClick={toggleSidebar}>
           ☰
         </button>
         <h1 className="page-title">{getPageTitle()}</h1>
@@ -105,7 +105,7 @@ const Header = ({ toggleSidebar }) => {
                 </div>
               </div>
               <div className="user-dropdown-divider"></div>
-              <button className="user-dropdown-item" onClick={handleLogout}>
+              <button type="button" className="user-dropdown-item" onClick={handleLogout}>
                 <span className="user-dropdown-icon">🚪</span>
                 Выйти
               </button>

@@ -41,7 +41,19 @@ export const PermissionEnum = {
 
   // Управление разрешениями и ролями пользователей
   HANDLE_USERS_PERMISSIONS: 'handle_users_permissions',
-  HANDLE_USERS_ROLES: 'handle_users_roles'
+  HANDLE_USERS_ROLES: 'handle_users_roles',
+
+  // Баннеры
+  CREATE_BANNER: 'create_banner',
+  READ_BANNER: 'read_banner',
+  UPDATE_BANNER: 'update_banner',
+  DELETE_BANNER: 'delete_banner',
+
+  // Категории баннеров
+  CREATE_BANNER_CATEGORY: 'create_banner_category',
+  READ_BANNER_CATEGORY: 'read_banner_category',
+  UPDATE_BANNER_CATEGORY: 'update_banner_category',
+  DELETE_BANNER_CATEGORY: 'delete_banner_category'
 }
 
 /**
@@ -107,6 +119,26 @@ export const getPermissionManagementPermissions = () => [
 ]
 
 /**
+ * Получить все разрешения для баннеров
+ */
+export const getBannerPermissions = () => [
+  PermissionEnum.CREATE_BANNER,
+  PermissionEnum.READ_BANNER,
+  PermissionEnum.UPDATE_BANNER,
+  PermissionEnum.DELETE_BANNER
+]
+
+/**
+ * Получить все разрешения для категорий баннеров
+ */
+export const getBannerCategoryPermissions = () => [
+  PermissionEnum.CREATE_BANNER_CATEGORY,
+  PermissionEnum.READ_BANNER_CATEGORY,
+  PermissionEnum.UPDATE_BANNER_CATEGORY,
+  PermissionEnum.DELETE_BANNER_CATEGORY
+]
+
+/**
  * Получить все разрешения
  */
 export const getAllPermissions = () => Object.values(PermissionEnum)
@@ -154,7 +186,17 @@ export const getPermissionDisplayName = (permission) => {
     [PermissionEnum.DELETE_PERMISSION]: 'Удаление разрешений',
 
     [PermissionEnum.HANDLE_USERS_PERMISSIONS]: 'Управление разрешениями пользователей',
-    [PermissionEnum.HANDLE_USERS_ROLES]: 'Управление ролями пользователей'
+    [PermissionEnum.HANDLE_USERS_ROLES]: 'Управление ролями пользователей',
+
+    [PermissionEnum.CREATE_BANNER]: 'Создание баннеров',
+    [PermissionEnum.READ_BANNER]: 'Просмотр баннеров',
+    [PermissionEnum.UPDATE_BANNER]: 'Редактирование баннеров',
+    [PermissionEnum.DELETE_BANNER]: 'Удаление баннеров',
+
+    [PermissionEnum.CREATE_BANNER_CATEGORY]: 'Создание категорий баннеров',
+    [PermissionEnum.READ_BANNER_CATEGORY]: 'Просмотр категорий баннеров',
+    [PermissionEnum.UPDATE_BANNER_CATEGORY]: 'Редактирование категорий баннеров',
+    [PermissionEnum.DELETE_BANNER_CATEGORY]: 'Удаление категорий баннеров'
   }
 
   return displayNames[permission] || permission

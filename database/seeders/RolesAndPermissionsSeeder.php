@@ -70,6 +70,18 @@ class RolesAndPermissionsSeeder extends Seeder
             PermissonEnum::UPDATE_ROLE->value,
             PermissonEnum::DELETE_ROLE->value,
 
+            // Баннеры
+            PermissonEnum::CREATE_BANNER->value,
+            PermissonEnum::READ_BANNER->value,
+            PermissonEnum::UPDATE_BANNER->value,
+            PermissonEnum::DELETE_BANNER->value,
+
+            // Категории баннеров
+            PermissonEnum::CREATE_BANNER_CATEGORY->value,
+            PermissonEnum::READ_BANNER_CATEGORY->value,
+            PermissonEnum::UPDATE_BANNER_CATEGORY->value,
+            PermissonEnum::DELETE_BANNER_CATEGORY->value,
+
             // Уведомления
             PermissonEnum::SEND_NOTIFICATION->value,
         ];

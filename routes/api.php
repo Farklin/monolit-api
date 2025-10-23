@@ -11,6 +11,8 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\PermissionController;
+use App\Http\Controllers\BannerController;
+use App\Http\Controllers\BannerCategoryController;
 
 Route::post('/auth/register', [AuthController::class, 'createUser']);
 Route::post('/auth/login', [AuthController::class, 'loginUser']);
@@ -79,10 +81,24 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::delete('/notifications/clear-all', [NotificationController::class, 'clearAll']);
     Route::delete('/notifications/{id}', [NotificationController::class, 'destroy']);
 
+    // Banner routes
+    Route::post('/banners/upload', [BannerController::class, 'uploadBanners']);
+    Route::get('/banners', [BannerController::class, 'index']);
+    Route::get('/banners/{id}', [BannerController::class, 'show']);
+    Route::delete('/banners/{id}', [BannerController::class, 'destroy']);
+    Route::put('/banners/{id}', [BannerController::class, 'update']);
+
+    Route::get('/banner-categories', [BannerCategoryController::class, 'index']);
+    Route::post('/banner-categories', [BannerCategoryController::class, 'store']);
+    Route::put('/banner-categories/{id}', [BannerCategoryController::class, 'update']);
+    Route::delete('/banner-categories/{id}', [BannerCategoryController::class, 'destroy']);
+
 
 })->middleware('auth:sanctum');
-    // Системное уведомление (всем)
-    Route::post('/notifications/send', [NotificationController::class, 'send']);
+// Системное уведомление (всем)
+Route::post('/notifications/send', [NotificationController::class, 'send']);
 
-    // Персональное уведомление конкретному пользователю
-    Route::post('/notifications/send-to-user', [NotificationController::class, 'sendToUser']);
+// Персональное уведомление конкретному пользователю
+Route::post('/notifications/send-to-user', [NotificationController::class, 'sendToUser']);
+
+

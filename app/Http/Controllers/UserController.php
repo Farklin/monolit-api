@@ -28,6 +28,7 @@ class UserController extends Controller
      *     path="/api/users",
      *     summary="Fetch all users with roles and permissions",
      *     tags={"Users"},
+     *     security={{"sanctum":{}}},
      *     @OA\Response(
      *         response=200,
      *         description="Success",
@@ -136,6 +137,7 @@ class UserController extends Controller
      *     path="/api/users",
      *     summary="Create data",
      *     tags={"Users"},
+     *     security={{"sanctum":{}}},
      *     @OA\RequestBody(
      *         @OA\MediaType(
      *             mediaType="application/json",

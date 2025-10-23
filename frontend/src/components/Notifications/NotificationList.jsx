@@ -94,7 +94,7 @@ const NotificationList = () => {
 
   return (
     <div className="notification-dropdown" ref={dropdownRef}>
-      <button className="notification-btn" onClick={toggleDropdown}>
+      <button type="button" className="notification-btn" onClick={toggleDropdown}>
         🔔
         {unreadCount > 0 && (
           <span className="notification-badge">

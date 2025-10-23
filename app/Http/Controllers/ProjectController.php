@@ -22,6 +22,7 @@ class ProjectController extends Controller
      *     path="/api/projects",
      *     summary="Fetch data",
      *     tags={"Projects"},
+     *     security={{"sanctum":{}}},
      *     @OA\Response(
      *         response=200,
      *         description="Success",
@@ -46,6 +47,7 @@ class ProjectController extends Controller
      *     path="/api/projects/{id}",
      *     summary="Fetch data by id",
      *     tags={"Projects"},
+     *     security={{"sanctum":{}}},
      *     @OA\Parameter(
      *             name="id",
      *             in="path",
@@ -80,6 +82,7 @@ class ProjectController extends Controller
      *     path="/api/projects",
      *     summary="Create data",
      *     tags={"Projects"},
+     *     security={{"sanctum":{}}},
      *     @OA\RequestBody(
      *         @OA\MediaType(
      *             mediaType="application/json",

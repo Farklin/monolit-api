@@ -16,6 +16,8 @@ import WarehouseStocksPage from './pages/WarehouseStocksPage'
 import UsersPage from './pages/UsersPage'
 import RolesPage from './pages/RolesPage'
 import PermissionsPage from './pages/PermissionsPage'
+import BannersPage from './pages/BannersPage'
+import BannerCategoriesPage from './pages/BannerCategoriesPage'
 import NotificationListener from './components/Notifications/NotificationListener'
 import './App.css'
 
@@ -109,6 +111,26 @@ function App() {
                   <ProtectedRoute>
                     <Layout>
                       <PermissionsPage />
+                    </Layout>
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/banners"
+                element={
+                  <ProtectedRoute>
+                    <Layout>
+                      <BannersPage />
+                    </Layout>
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/banner-categories"
+                element={
+                  <ProtectedRoute>
+                    <Layout>
+                      <BannerCategoriesPage />
                     </Layout>
                   </ProtectedRoute>
                 }

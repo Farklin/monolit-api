@@ -118,7 +118,7 @@ class AuthController extends Controller
      *             @OA\Schema(
      *                 @OA\Property(property="email", type="string"),
      *                 @OA\Property(property="password", type="string"),
-     *                 example={"email": "john@doe.com", "password": "password"}
+     *                 example={"email": "admin@mlt-it.ru", "password": "admin"}
      *             )
      *         )
      *     ),

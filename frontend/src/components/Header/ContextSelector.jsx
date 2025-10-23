@@ -68,6 +68,7 @@ const ContextSelector = () => {
   return (
     <div className="context-selector" ref={dropdownRef}>
       <button
+        type="button"
         className="context-selector-btn"
         onClick={() => setIsOpen(!isOpen)}
       >
@@ -98,6 +99,7 @@ const ContextSelector = () => {
                     </div>
                   </div>
                   <button
+                    type="button"
                     className="dropdown-clear-btn"
                     onClick={handleClearContext}
                   >
@@ -110,6 +112,7 @@ const ContextSelector = () => {
                 {contexts.map(context => (
                   <button
                     key={context.id}
+                    type="button"
                     className={`dropdown-item ${selectedContext?.id === context.id ? 'active' : ''}`}
                     onClick={() => handleSelectContext(context)}
                   >
@@ -130,6 +133,9 @@ const ContextSelector = () => {
 }
 
 export default ContextSelector
+
+
+
 
 
 
